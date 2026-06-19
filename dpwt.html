@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roar® | DP World Tour Prospect Map</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+  :root {
+    --black: #0a0a0a;
+    --surface: #111111;
+    --card: #181818;
+    --border: rgba(255,255,255,0.08);
+    --orange: #FF6B00;
+    --orange-dim: rgba(255,107,0,0.12);
+    --white: #ffffff;
+    --muted: rgba(255,255,255,0.45);
+    --tag-bg: rgba(255,255,255,0.06);
+    --green: #22c55e;
+    --amber: #f59e0b;
+    --blue: #3b82f6;
+    --red: #ef4444;
+    --purple: #a855f7;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,10,0.97);
+    backdrop-filter: blur(12px);
+    z-index: 200;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    flex-shrink: 0;
+  }
+  .logo span { color: var(--orange); }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .header-meta {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: right;
+  }
+  .header-meta strong { color: var(--white); display: block; font-size: 13px; }
+  .btn-export {
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 14px;
+    color: var(--muted);
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .btn-export:hover { border-color: var(--orange); color: var(--white); }
+
+  /* PIPELINE DASHBOARD */
+  .dashboard {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+  }
+  .dashboard-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--muted);
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .pipeline-track {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+  .pipeline-stage {
+    flex: 1;
+    min-width: 120px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .pipeline-stage:hover { border-color: rgba(255,255,255,0.2); }
+  .pipeline-stage.active-stage { border-color: var(--orange); }
+  .stage-count {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .stage-label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .stage-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    display: inline-block; margin-right: 5px; vertical-align: middle;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 36px 32px 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(22px, 3vw, 34px);
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    max-width: 700px;
+  }
+  .hero h1 em { color: var(--orange); font-style: normal; }
+  .hero p { margin-top: 10px; color: var(--muted); max-width: 620px; font-size: 13px; }
+  .hero-stats { display: flex; gap: 28px; margin-top: 22px; flex-wrap: wrap; }
+  .stat-n {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--orange);
+    letter-spacing: -1px;
+  }
+  .stat-l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+
+  /* LEGEND */
+  .legend-bar {
+    padding: 12px 32px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .legend-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-right: 4px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* CONTROLS */
+  .controls {
+    padding: 16px 32px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .search-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 14px;
+    color: var(--white);
+    font-size: 13px;
+    font-family: inherit;
+    width: 220px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-box:focus { border-color: var(--orange); }
+  .search-box::placeholder { color: var(--muted); }
+  .filter-btn {
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 12px;
+    color: var(--muted);
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: var(--orange); color: var(--white); }
+  .filter-btn.active { background: var(--orange-dim); border-color: var(--orange); color: var(--orange); }
+
+  /* GRID */
+  .grid-wrap { padding: 24px 32px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 14px;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    transition: border-color 0.2s, transform 0.15s;
+    position: relative;
+  }
+  .card:hover { border-color: rgba(255,107,0,0.3); transform: translateY(-1px); }
+  .card.open { border-color: var(--orange); }
+
+  /* Status stripe on left edge */
+  .card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 12px; bottom: 12px;
+    width: 3px;
+    border-radius: 0 2px 2px 0;
+    background: transparent;
+    transition: background 0.2s;
+  }
+  .card[data-status="Not contacted"]::before { background: var(--muted); }
+  .card[data-status="Contacted"]::before { background: var(--blue); }
+  .card[data-status="Meeting booked"]::before { background: var(--amber); }
+  .card[data-status="In conversation"]::before { background: var(--purple); }
+  .card[data-status="Proposal sent"]::before { background: var(--orange); }
+  .card[data-status="Closed"]::before { background: var(--green); }
+  .card[data-status="Not a fit"]::before { background: var(--red); }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .card-left { flex: 1; min-width: 0; }
+  .card-brand {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .card-role { font-size: 11px; color: var(--muted); margin-top: 2px; font-style: italic; }
+  .card-cat {
+    background: var(--orange-dim);
+    color: var(--orange);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 3px 7px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .card-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  .flag-tag {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .flag-tag .dot { width: 6px; height: 6px; }
+
+  /* STATUS BADGE inline */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+  }
+  .status-badge:hover { opacity: 0.75; }
+  .status-Not-contacted { color: var(--muted); border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); }
+  .status-Contacted { color: var(--blue); border-color: rgba(59,130,246,0.3); background: rgba(59,130,246,0.08); }
+  .status-Meeting-booked { color: var(--amber); border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.08); }
+  .status-In-conversation { color: var(--purple); border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.08); }
+  .status-Proposal-sent { color: var(--orange); border-color: rgba(255,107,0,0.3); background: rgba(255,107,0,0.08); }
+  .status-Closed { color: var(--green); border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.08); }
+  .status-Not-a-fit { color: var(--red); border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.08); }
+
+  /* STATUS DROPDOWN */
+  .status-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 300;
+    background: #1e1e1e;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 6px;
+    min-width: 170px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .status-menu.open { display: flex; }
+  .status-menu-item {
+    padding: 7px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.1s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .status-menu-item:hover { background: rgba(255,255,255,0.07); }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  .card-toggle-row {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-toggle {
+    font-size: 11px;
+    color: var(--orange);
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.15s;
+  }
+  .card:hover .card-toggle, .card.open .card-toggle { opacity: 1; }
+
+  /* EXPANDED */
+  .card-detail {
+    display: none;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .card.open .card-detail { display: block; }
+
+  .detail-section { margin-bottom: 14px; }
+  .detail-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--muted);
+    margin-bottom: 7px;
+    font-weight: 600;
+  }
+
+  .competitor-list { display: flex; flex-direction: column; gap: 5px; }
+  .competitor-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 7px 10px;
+    background: var(--tag-bg);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  .comp-scope {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 5px;
+    border-radius: 3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .comp-scope.global { background: rgba(34,197,94,0.15); color: var(--green); }
+  .comp-scope.emea { background: rgba(59,130,246,0.15); color: var(--blue); }
+  .comp-scope.us { background: rgba(245,158,11,0.15); color: var(--amber); }
+  .comp-scope.uk { background: rgba(59,130,246,0.15); color: var(--blue); }
+  .comp-scope.apac { background: rgba(168,85,247,0.15); color: var(--purple); }
+  .comp-name { font-size: 13px; font-weight: 500; }
+  .comp-note { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+  .agency-list { display: flex; flex-direction: column; gap: 4px; }
+  .agency-row { display: flex; gap: 8px; align-items: baseline; font-size: 12px; }
+  .agency-name { font-weight: 500; }
+  .agency-note { color: var(--muted); font-size: 11px; }
+
+  .roar-note {
+    background: var(--orange-dim);
+    border: 1px solid rgba(255,107,0,0.2);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.5;
+  }
+  .roar-note strong { color: var(--orange); }
+
+  .skip-banner {
+    background: rgba(239,68,68,0.08);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: rgba(239,68,68,0.8);
+    margin-bottom: 12px;
+  }
+
+  /* NOTES */
+  .notes-wrap { margin-top: 14px; }
+  .notes-textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    color: var(--white);
+    font-family: inherit;
+    font-size: 12px;
+    line-height: 1.5;
+    resize: vertical;
+    min-height: 72px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .notes-textarea:focus { border-color: var(--orange); }
+  .notes-textarea::placeholder { color: rgba(255,255,255,0.2); }
+  .notes-saved {
+    font-size: 10px;
+    color: var(--green);
+    margin-top: 4px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .notes-saved.show { opacity: 1; }
+
+  /* OWNER */
+  .owner-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .owner-label { font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .owner-input {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 4px 10px;
+    color: var(--white);
+    font-family: inherit;
+    font-size: 12px;
+    outline: none;
+    width: 160px;
+    transition: border-color 0.2s;
+  }
+  .owner-input:focus { border-color: var(--orange); }
+  .owner-input::placeholder { color: rgba(255,255,255,0.2); }
+
+  /* EMPTY */
+  .empty { text-align: center; padding: 56px 32px; color: var(--muted); grid-column: 1/-1; }
+  .empty h3 { font-size: 18px; color: var(--white); margin-bottom: 8px; }
+
+  /* FOOTER */
+  footer {
+    margin-top: 32px;
+    border-top: 1px solid var(--border);
+    padding: 18px 32px;
+    font-size: 11px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  footer strong { color: var(--orange); }
+
+  @media (max-width: 640px) {
+    header, .hero, .controls, .legend-bar, .grid-wrap, .dashboard { padding-left: 16px; padding-right: 16px; }
+    .grid { grid-template-columns: 1fr; }
+    .pipeline-track { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Roar<span>®</span></div>
+  <div class="header-right">
+    <button class="btn-export" onclick="exportCSV()">↓ Export CSV</button>
+    <div class="header-meta">
+      <strong>DP World Tour Prospect Map</strong>
+      June 2026 · Confidential
+    </div>
+  </div>
+</header>
+
+<div class="dashboard">
+  <div class="dashboard-title">Pipeline Overview — click a stage to filter</div>
+  <div class="pipeline-track">
+    <div class="pipeline-stage" onclick="filterByStatus('all')" id="stage-all">
+      <div class="stage-count" id="count-all">—</div>
+      <div class="stage-label">All prospects</div>
+    </div>
+    <div class="pipeline-stage" onclick="filterByStatus('Not contacted')" id="stage-Not contacted">
+      <div class="stage-count" id="count-Not contacted" style="color:var(--muted)">—</div>
+      <div class="stage-label"><span class="stage-dot" style="background:var(--muted)"></span>Not contacted</div>
+    </div>
+    <div class="pipeline-stage" onclick="filterByStatus('Contacted')" id="stage-Contacted">
+      <div class="stage-count" id="count-Contacted" style="color:var(--blue)">—</div>
+      <div class="stage-label"><span class="stage-dot" style="background:var(--blue)"></span>Contacted</div>
+    </div>
+    <div class="pipeline-stage" onclick="filterByStatus('Meeting booked')" id="stage-Meeting booked">
+      <div class="stage-count" id="count-Meeting booked" style="color:var(--amber)">—</div>
+      <div class="stage-label"><span class="stage-dot" style="background:var(--amber)"></span>Meeting booked</div>
+    </div>
+    <div class="pipeline-stage" onclick="filterByStatus('In conversation')" id="stage-In conversation">
+      <div class="stage-count" id="count-In conversation" style="color:var(--purple)">—</div>
+      <div class="stage-label"><span class="stage-dot" style="background:var(--purple)"></span>In conversation</div>
+    </div>
+    <div class="pipeline-stage" onclick="filterByStatus('Proposal sent')" id="stage-Proposal sent">
+      <div class="stage-count" id="count-Proposal sent" style="color:var(--orange)">—</div>
+      <div class="stage-label"><span class="stage-dot" style="background:var(--orange)"></span>Proposal sent</div>
+    </div>
+    <div class="pipeline-stage" onclick="filterByStatus('Closed')" id="stage-Closed">
+      <div class="stage-count" id="count-Closed" style="color:var(--green)">—</div>
+      <div class="stage-label"><span class="stage-dot" style="background:var(--green)"></span>Closed</div>
+    </div>
+    <div class="pipeline-stage" onclick="filterByStatus('Not a fit')" id="stage-Not a fit">
+      <div class="stage-count" id="count-Not a fit" style="color:var(--red)">—</div>
+      <div class="stage-label"><span class="stage-dot" style="background:var(--red)"></span>Not a fit</div>
+    </div>
+  </div>
+</div>
+
+<div class="hero">
+  <h1>DP World Tour Marketing Partners<br><em>Demand-Side Prospect Intelligence</em></h1>
+  <p>All official DP World Tour marketing partners mapped by sector, with global and territory-level competitors and relevant media / advertising agency contacts. Contact media teams only — not sponsorship or partnerships.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-n">13</div><div class="stat-l">Partners mapped</div></div>
+    <div class="stat"><div class="stat-n">9</div><div class="stat-l">Sectors</div></div>
+    <div class="stat"><div class="stat-n">55+</div><div class="stat-l">Competitor brands</div></div>
+    <div class="stat"><div class="stat-n">6</div><div class="stat-l">US-only / skip</div></div>
+  </div>
+</div>
+
+<div class="legend-bar">
+  <span class="legend-label">Scope key:</span>
+  <div class="legend-item"><div class="dot" style="background:var(--green)"></div> Global</div>
+  <div class="legend-item"><div class="dot" style="background:var(--blue)"></div> EMEA / UK</div>
+  <div class="legend-item"><div class="dot" style="background:var(--amber)"></div> US-only competitor</div>
+  <div class="legend-item"><div class="dot" style="background:var(--red)"></div> US-only brand (skip)</div>
+</div>
+
+<div class="controls">
+  <input class="search-box" type="text" id="searchInput" placeholder="Search brand, sector, agency…" oninput="filterCards()">
+  <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+  <button class="filter-btn" onclick="setFilter('global',this)">Global priority</button>
+  <button class="filter-btn" onclick="setFilter('us-skip',this)">US-only skip</button>
+  <button class="filter-btn" onclick="setFilter('Financial Services',this)">Financial</button>
+  <button class="filter-btn" onclick="setFilter('Travel',this)">Travel</button>
+  <button class="filter-btn" onclick="setFilter('Automotive',this)">Auto</button>
+  <button class="filter-btn" onclick="setFilter('Beer / Alcohol',this)">Drinks</button>
+  <button class="filter-btn" onclick="setFilter('Technology',this)">Tech</button>
+  <button class="filter-btn" onclick="setFilter('Sports / Health',this)">Sport & Health</button>
+</div>
+
+<div class="grid-wrap">
+  <div class="grid" id="cardGrid"></div>
+</div>
+
+<footer>
+  <span>Roar® Confidential · For internal use only · <strong>Contact media / advertising teams — not sponsorship or partnerships</strong></span>
+  <span>Status and notes saved locally in your browser</span>
+</footer>
+
+<script>
+const DATA = [
+  {
+    brand: "DP World",
+    role: "Title Partner — DP World Tour (extended to 2035)",
+    category: "Logistics",
+    globalPriority: true,
+    usOnly: false,
+    competitors: [
+      { scope:"global", name:"DHL", note:"Global logistics; F1 Official Partner; active sports media" },
+      { scope:"global", name:"Maersk", note:"Global shipping; growing brand media" },
+      { scope:"global", name:"FedEx", note:"PGA Tour title sponsor (FedExCup) — golf adjacent" },
+      { scope:"global", name:"UPS", note:"Global; sports sponsorship media buyer" },
+      { scope:"emea", name:"DB Schenker", note:"German logistics; EMEA dominant" },
+    ],
+    agencies: [
+      { name:"Ogilvy / WPP", note:"DHL global media" },
+      { name:"BBDO / OMD", note:"FedEx global" },
+    ],
+    roarNote: "DP World is Roar's contracted supply partner — use as the strongest possible proof of engagement credibility. DHL is the most aggressive sports media buyer in logistics (F1, cricket) and the clearest competitive target. Approach via Ogilvy WPP sports team."
+  },
+  {
+    brand: "Rolex",
+    role: "Official Timekeeper & Title Partner of the Rolex Series (since 1997, extended 2026)",
+    category: "Luxury Goods",
+    globalPriority: true,
+    usOnly: false,
+    competitors: [
+      { scope:"global", name:"OMEGA", note:"ATP and WTA timekeeper — tennis + golf crossover" },
+      { scope:"global", name:"TAG Heuer (LVMH)", note:"Sports heritage; digital media pioneer" },
+      { scope:"global", name:"Hublot (LVMH)", note:"Sports-first positioning; LVMH media via Carat" },
+      { scope:"global", name:"IWC Schaffhausen (Richemont)", note:"EMEA luxury; sports adjacency" },
+      { scope:"global", name:"Breitling", note:"Aviation/sports; growing media investment" },
+    ],
+    agencies: [
+      { name:"Carat / Dentsu", note:"LVMH portfolio (TAG Heuer, Hublot)" },
+      { name:"Wavemaker / GroupM", note:"OMEGA / Swatch Group" },
+    ],
+    roarNote: "Rolex spans DP World Tour, ATP AND WTA — the definitive luxury watch in sport. TAG Heuer and Hublot (both LVMH, both via Carat) are the primary competitors. Single Carat relationship unlocks both. OMEGA (WTA/ATP) via Wavemaker is the other priority."
+  },
+  {
+    brand: "BMW",
+    role: "Official Partner — Title Sponsor of BMW PGA Championship & two other tour events",
+    category: "Automotive",
+    globalPriority: true,
+    usOnly: false,
+    competitors: [
+      { scope:"global", name:"Mercedes-Benz", note:"WTA Premier Partner — dual-tour auto play" },
+      { scope:"global", name:"Lexus", note:"ATP Platinum Partner — three-tour auto landscape" },
+      { scope:"global", name:"Audi", note:"EMEA dominant premium auto; Mediacom" },
+      { scope:"emea", name:"Land Rover / JLR", note:"Premium British; golf-adjacent; MG OMD" },
+      { scope:"global", name:"Porsche", note:"EMEA premium; Stuttgart WTA tournament" },
+      { scope:"global", name:"Genesis", note:"PGA Tour Official Vehicle" },
+    ],
+    agencies: [
+      { name:"Mediacom / GroupM", note:"BMW global media AOR" },
+      { name:"UM / IPG", note:"Mercedes-Benz" },
+    ],
+    roarNote: "BMW is a Roar contracted supply partner — already in the ecosystem. BMW + Mercedes-Benz + Lexus = all three premium auto brands committed to premium tennis/golf. Porsche (EMEA-strong, Dentsu) is the gap in Roar's auto coverage and a natural first call."
+  },
+  {
+    brand: "Emirates",
+    role: "Official Partner",
+    category: "Travel",
+    globalPriority: true,
+    usOnly: false,
+    competitors: [
+      { scope:"global", name:"British Airways (IAG)", note:"UK flag carrier; active sports media; M/SIX" },
+      { scope:"global", name:"Qatar Airways", note:"Already on Roar partner slide — cross-sell" },
+      { scope:"global", name:"Etihad Airways", note:"Abu Dhabi; active in premium sports" },
+      { scope:"global", name:"Lufthansa Group", note:"EMEA; growing digital media" },
+    ],
+    agencies: [
+      { name:"Initiative / IPG", note:"Emirates global media AOR" },
+      { name:"M/SIX / WPP", note:"British Airways" },
+    ],
+    roarNote: "Emirates is across DP World Tour AND ATP — highest-frequency dual-property buyer in Roar's universe. British Airways (M/SIX) is the immediate competitive target — premium male audience, golf/tennis heritage, EMEA digital media team."
+  },
+  {
+    brand: "AWS (Amazon Web Services)",
+    role: "Official Cloud Provider",
+    category: "Technology",
+    globalPriority: true,
+    usOnly: false,
+    competitors: [
+      { scope:"global", name:"Microsoft Azure", note:"Global cloud; active sports sponsor via IPG" },
+      { scope:"global", name:"Google Cloud", note:"Global; growing brand media investment" },
+      { scope:"global", name:"Oracle", note:"Historic golf data partnership; enterprise cloud" },
+      { scope:"global", name:"SAP", note:"WTA IT partner — same category, dual-tour angle" },
+      { scope:"emea", name:"OVHcloud", note:"European cloud; EMEA digital buyer" },
+    ],
+    agencies: [
+      { name:"Initiative / IPG", note:"Microsoft Azure global" },
+      { name:"OMD / Omnicom", note:"Google Cloud brand media" },
+    ],
+    roarNote: "AWS (DP World Tour) and SAP (WTA IT) cover cloud/enterprise tech across both golf and tennis. Microsoft Azure via Initiative is the priority competitor — largest cloud brand media budget globally with strong sports alignment and EMEA buying team."
+  },
+  {
+    brand: "Aldar Properties",
+    role: "Official Partner — Abu Dhabi real estate",
+    category: "Real Estate",
+    globalPriority: false,
+    usOnly: false,
+    competitors: [
+      { scope:"global", name:"DAMAC Properties", note:"Dubai luxury real estate; active sports sponsor" },
+      { scope:"global", name:"Emaar Properties", note:"Dubai; premium real estate; sports media" },
+      { scope:"emea", name:"Savills", note:"UK global property; media buyer" },
+      { scope:"emea", name:"Knight Frank", note:"UK global property advisory; sports adjacent" },
+    ],
+    agencies: [],
+    roarNote: "Gulf real estate brands use premium sport for global awareness. DAMAC and Emaar (both Dubai) are the competitive targets with active sports media budgets and premium audience objectives."
+  },
+  {
+    brand: "Buffalo Trace Distillery",
+    role: "Official Bourbon / Whiskey",
+    category: "Beer / Alcohol",
+    globalPriority: true,
+    usOnly: false,
+    competitors: [
+      { scope:"global", name:"Johnnie Walker (Diageo)", note:"Golf heritage; US Open; Carat AOR" },
+      { scope:"global", name:"Glenfiddich (William Grant)", note:"Premium Scotch; sports adjacency" },
+      { scope:"global", name:"Jameson (Pernod Ricard)", note:"Global Irish whiskey; sports media via UM" },
+      { scope:"global", name:"Jack Daniel's (Brown-Forman)", note:"Sports sponsorship heritage" },
+      { scope:"emea", name:"Monkey Shoulder", note:"UK premium blended Scotch; active media" },
+    ],
+    agencies: [
+      { name:"Carat / Dentsu", note:"Diageo (Johnnie Walker, Guinness) global AOR" },
+      { name:"UM / IPG", note:"Pernod Ricard global" },
+    ],
+    roarNote: "Diageo (Johnnie Walker) is the priority premium spirits target — golf heritage, massive media budget via Carat, and proven premium sports digital activation. Johnnie Walker's golf association makes Roar's inventory a natural fit."
+  },
+  {
+    brand: "Fortinet",
+    role: "Official Cybersecurity Partner",
+    category: "Technology",
+    globalPriority: true,
+    usOnly: false,
+    competitors: [
+      { scope:"global", name:"CrowdStrike", note:"Major sports media buyer; active brand campaigns" },
+      { scope:"global", name:"Palo Alto Networks", note:"Global; sports media investment growing" },
+      { scope:"global", name:"Darktrace", note:"UK-origin AI cybersecurity; EMEA accessible" },
+      { scope:"global", name:"Check Point", note:"Israeli-origin; global; growing media" },
+    ],
+    agencies: [],
+    roarNote: "Cybersecurity brands are increasingly buying premium sport for B2B brand building. CrowdStrike runs major sports campaigns (F1, golf). Darktrace (UK HQ) is the most EMEA-accessible target. Approach their brand teams directly — specialist agencies are rare in this category."
+  },
+  {
+    brand: "Husqvarna",
+    role: "Title Sponsor — Husqvarna British Masters presented by Sir Nick Faldo",
+    category: "Consumer Goods / Machinery",
+    globalPriority: false,
+    usOnly: false,
+    competitors: [
+      { scope:"global", name:"John Deere", note:"PGA Tour partner — already in golf" },
+      { scope:"emea", name:"Bosch Garden (BSH)", note:"EMEA garden equipment; active media" },
+      { scope:"emea", name:"STIHL", note:"German; global garden tools; sports adjacent" },
+    ],
+    agencies: [],
+    roarNote: "Husqvarna is a niche outdoor power equipment brand. John Deere (PGA Tour) is the addressable competitor at scale. Garden/outdoor machinery is a small but loyal media category in golf."
+  },
+  {
+    brand: "Michelob ULTRA (AB InBev)",
+    role: "Official Beer",
+    category: "Beer / Alcohol",
+    globalPriority: true,
+    usOnly: false,
+    competitors: [
+      { scope:"global", name:"Stella Artois (AB InBev)", note:"ATP partner AND Roar proof point — same stable" },
+      { scope:"global", name:"Heineken", note:"Major global sports beer; PHD/Omnicom" },
+      { scope:"global", name:"Guinness (Diageo)", note:"Rugby + golf; EMEA via Carat" },
+      { scope:"global", name:"Corona (AB InBev)", note:"MLB Official Cerveza — same AB InBev parent" },
+    ],
+    agencies: [
+      { name:"EssenceMediacom / GroupM", note:"AB InBev global media AOR — covers Michelob, Stella, Budweiser, Corona" },
+    ],
+    roarNote: "AB InBev is Roar's most important agency conversation — Michelob ULTRA (DP World Tour), Stella Artois (ATP + Roar proof point) and Corona (MLB) are all the same parent brand via EssenceMediacom. One GroupM relationship covers all three properties and multiple brands."
+  },
+  {
+    brand: "Nexo",
+    role: "Official Crypto / Digital Assets Partner",
+    category: "Financial Services / Crypto",
+    globalPriority: false,
+    usOnly: false,
+    competitors: [
+      { scope:"global", name:"Bitpanda", note:"European crypto; ATP partner 2025 — dual-tour" },
+      { scope:"global", name:"Crypto.com", note:"Major global sports sponsor (UFC, F1)" },
+      { scope:"global", name:"Coinbase", note:"US-dominant but growing EMEA" },
+      { scope:"emea", name:"eToro", note:"European social trading; active sports media" },
+    ],
+    agencies: [
+      { name:"In-house / performance", note:"Crypto brands typically buy performance-first" },
+    ],
+    roarNote: "Crypto/digital assets is an active premium sports category. Crypto.com (UFC, F1) and Bitpanda (ATP 2025) are both buying premium sports digital. eToro is the most accessible EMEA-based target with a track record in sports premium buys."
+  },
+  {
+    brand: "Vestas",
+    role: "Official Sustainability / Wind Energy Partner",
+    category: "Energy / Sustainability",
+    globalPriority: false,
+    usOnly: false,
+    competitors: [
+      { scope:"global", name:"Siemens Gamesa", note:"EMEA wind; growing brand media" },
+      { scope:"global", name:"LONGi Solar", note:"ATP Sustainability Partner — same category" },
+      { scope:"emea", name:"Octopus Energy", note:"UK challenger; fastest growing energy brand media" },
+      { scope:"global", name:"TotalEnergies", note:"Global; major sports sponsor" },
+    ],
+    agencies: [
+      { name:"Havas", note:"TotalEnergies global media" },
+    ],
+    roarNote: "Vestas (DP World Tour) and LONGi Solar (ATP) represent sustainability brands committing to premium sport. TotalEnergies (Havas) is the largest accessible energy media buyer — active in Formula E, cycling and now golf adjacency."
+  },
+  {
+    brand: "SBK",
+    role: "Official Betting Operator (new 2026 — three tour events)",
+    category: "Sports Betting",
+    globalPriority: false,
+    usOnly: false,
+    competitors: [
+      { scope:"global", name:"Bet365", note:"UK-origin global operator; massive digital buyer" },
+      { scope:"global", name:"Flutter / Paddy Power Betfair", note:"EMEA dominant; PHD/Omnicom" },
+      { scope:"emea", name:"William Hill (Caesars)", note:"UK active in golf and sports" },
+      { scope:"global", name:"Betway", note:"Global; golf and sports sponsorship specialist" },
+    ],
+    agencies: [
+      { name:"PHD / Omnicom", note:"Flutter / Paddy Power global" },
+      { name:"In-house", note:"Bet365 buys almost entirely direct" },
+    ],
+    roarNote: "SBK is a new entrant. Bet365 and Paddy Power (Flutter) are the major EMEA betting media buyers in golf. Bet365 buys direct — approach their Stoke digital team. Flutter via PHD is the agency route for Paddy Power/Betfair and Sky Bet."
+  },
+];
+let activeFilter = 'all';
+let activeStatusFilter = 'all';
+let searchTerm = '';
+const STORE_KEY = 'roar_prospect_v2';
+
+function loadStore() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e) { return {}; }
+}
+function saveStore(store) {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch(e) {}
+}
+function getRecord(brand) {
+  const store = loadStore();
+  return store[brand] || { status: 'Not contacted', notes: '', owner: '' };
+}
+function setRecord(brand, key, value) {
+  const store = loadStore();
+  if (!store[brand]) store[brand] = { status: 'Not contacted', notes: '', owner: '' };
+  store[brand][key] = value;
+  saveStore(store);
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────
+function updateDashboard() {
+  const store = loadStore();
+  const counts = { 'all': DATA.length };
+  STATUSES.forEach(s => counts[s.value] = 0);
+  DATA.forEach(d => {
+    const rec = store[d.brand] || {};
+    const st = rec.status || 'Not contacted';
+    if (counts[st] !== undefined) counts[st]++;
+  });
+  Object.keys(counts).forEach(k => {
+    const el = document.getElementById('count-' + k);
+    if (el) el.textContent = counts[k];
+  });
+}
+
+// ── FILTER / SEARCH ───────────────────────────────────────────
+function filterCards() {
+  searchTerm = document.getElementById('searchInput').value.toLowerCase();
+  renderCards();
+}
+function setFilter(val, btn) {
+  activeFilter = val;
+  activeStatusFilter = 'all';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.pipeline-stage').forEach(s => s.classList.remove('active-stage'));
+  renderCards();
+}
+function filterByStatus(st) {
+  activeStatusFilter = st;
+  activeFilter = 'all';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.filter-btn')[0].classList.add('active');
+  document.querySelectorAll('.pipeline-stage').forEach(s => s.classList.remove('active-stage'));
+  const el = document.getElementById('stage-' + st);
+  if (el) el.classList.add('active-stage');
+  renderCards();
+}
+
+// ── STATUS BADGE ──────────────────────────────────────────────
+function statusClass(st) {
+  return 'status-' + st.replace(/ /g,'-');
+}
+function buildStatusBadge(brand, currentStatus) {
+  const sc = statusClass(currentStatus);
+  const menuId = 'menu_' + brand.replace(/\W/g,'');
+  const menuItems = STATUSES.map(s => `
+    <div class="status-menu-item" onclick="changeStatus('${brand}','${s.value}'); event.stopPropagation();">
+      <span class="status-dot" style="background:${s.color}"></span>${s.value}
+    </div>`).join('');
+  return `
+    <div style="position:relative; display:inline-block">
+      <div class="status-badge ${sc}" onclick="toggleStatusMenu('${menuId}'); event.stopPropagation();">
+        <span>●</span> ${currentStatus}
+      </div>
+      <div class="status-menu" id="${menuId}">${menuItems}</div>
+    </div>`;
+}
+function toggleStatusMenu(menuId) {
+  // close all others first
+  document.querySelectorAll('.status-menu.open').forEach(m => {
+    if (m.id !== menuId) m.classList.remove('open');
+  });
+  const menu = document.getElementById(menuId);
+  if (menu) menu.classList.toggle('open');
+}
+function changeStatus(brand, newStatus) {
+  setRecord(brand, 'status', newStatus);
+  // close menus
+  document.querySelectorAll('.status-menu.open').forEach(m => m.classList.remove('open'));
+  updateDashboard();
+  // update badge and card stripe in place without full re-render
+  const cardEl = document.getElementById('card_' + brand.replace(/\W/g,''));
+  if (cardEl) {
+    cardEl.setAttribute('data-status', newStatus);
+    const badgeWrap = cardEl.querySelector('.status-badge-wrap');
+    if (badgeWrap) badgeWrap.innerHTML = buildStatusBadge(brand, newStatus);
+  }
+}
+
+// ── NOTES & OWNER ─────────────────────────────────────────────
+function saveNotes(brand) {
+  const el = document.getElementById('notes_' + brand.replace(/\W/g,''));
+  if (!el) return;
+  setRecord(brand, 'notes', el.value);
+  const saved = document.getElementById('saved_' + brand.replace(/\W/g,''));
+  if (saved) { saved.classList.add('show'); setTimeout(() => saved.classList.remove('show'), 1800); }
+}
+function saveOwner(brand) {
+  const el = document.getElementById('owner_' + brand.replace(/\W/g,''));
+  if (!el) return;
+  setRecord(brand, 'owner', el.value);
+}
+
+// ── CARD TOGGLE ───────────────────────────────────────────────
+function toggleCard(cardEl) {
+  const toggle = cardEl.querySelector('.card-toggle');
+  cardEl.classList.toggle('open');
+  if (toggle) toggle.textContent = cardEl.classList.contains('open') ? '▲ Close' : '▼ Expand';
+}
+
+// ── RENDER ────────────────────────────────────────────────────
+function renderCards() {
+  const grid = document.getElementById('cardGrid');
+  const store = loadStore();
+
+  const filtered = DATA.filter(d => {
+    const rec = store[d.brand] || {};
+    const st = rec.status || 'Not contacted';
+
+    const matchSearch = !searchTerm ||
+      d.brand.toLowerCase().includes(searchTerm) ||
+      d.category.toLowerCase().includes(searchTerm) ||
+      (d.competitors||[]).some(c => c.name.toLowerCase().includes(searchTerm)) ||
+      (d.agencies||[]).some(a => a.name.toLowerCase().includes(searchTerm));
+
+    const matchFilter =
+      activeFilter === 'all'    ? true :
+      activeFilter === 'global' ? (d.globalPriority && !d.usOnly) :
+      activeFilter === 'us-skip'? d.usOnly :
+      d.category === activeFilter;
+
+    const matchStatus = activeStatusFilter === 'all' ? true : st === activeStatusFilter;
+
+    return matchSearch && matchFilter && matchStatus;
+  });
+
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="empty"><h3>No prospects found</h3><p>Adjust your search or filter.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(d => {
+    const cid = 'card_' + d.brand.replace(/\W/g,'');
+    const rec = store[d.brand] || { status:'Not contacted', notes:'', owner:'' };
+    const scopeColor = d.usOnly ? 'var(--red)' : d.globalPriority ? 'var(--green)' : 'var(--amber)';
+    const scopeLabel = d.usOnly ? 'US-only brand' : d.globalPriority ? 'Global priority' : 'EMEA target';
+
+    const compHTML = (d.competitors||[]).map(c => `
+      <div class="competitor-row">
+        <span class="comp-scope ${c.scope}">${c.scope.toUpperCase()}</span>
+        <div><div class="comp-name">${c.name}</div><div class="comp-note">${c.note}</div></div>
+      </div>`).join('');
+
+    const agencyHTML = (d.agencies||[]).map(a => `
+      <div class="agency-row">
+        <span class="agency-name">${a.name}</span>
+        <span class="agency-note">— ${a.note}</span>
+      </div>`).join('');
+
+    const safeId = d.brand.replace(/\W/g,'');
+
+    return `
+<div class="card" id="${cid}" data-status="${rec.status}">
+  <div class="card-top" onclick="toggleCard(document.getElementById('${cid}'))">
+    <div class="card-left">
+      <div class="card-brand">${d.brand}</div>
+      <div class="card-role">${d.role}</div>
+    </div>
+    <div class="card-cat">${d.category}</div>
+  </div>
+
+  <div class="card-meta-row">
+    <div class="flag-tag"><div class="dot" style="background:${scopeColor}"></div>${scopeLabel}</div>
+    <div class="status-badge-wrap">${buildStatusBadge(d.brand, rec.status)}</div>
+  </div>
+
+  <div class="card-toggle-row">
+    <div class="card-toggle" onclick="toggleCard(document.getElementById('${cid}'))">▼ Expand</div>
+    ${rec.owner ? `<div style="font-size:11px;color:var(--muted)">Owner: <span style="color:var(--white)">${rec.owner}</span></div>` : ''}
+  </div>
+
+  <div class="card-detail">
+    ${d.usOnlyWarning ? `<div class="skip-banner">⚠ ${d.usOnlyWarning}</div>` : ''}
+
+    ${compHTML ? `
+    <div class="detail-section">
+      <div class="detail-label">Category competitors to target</div>
+      <div class="competitor-list">${compHTML}</div>
+    </div>` : ''}
+
+    ${agencyHTML ? `
+    <div class="detail-section">
+      <div class="detail-label">Media agency contacts</div>
+      <div class="agency-list">${agencyHTML}</div>
+    </div>` : ''}
+
+    <div class="detail-section">
+      <div class="roar-note"><strong>Roar angle:</strong> ${d.roarNote}</div>
+    </div>
+
+    <div class="notes-wrap">
+      <div class="detail-label">Notes</div>
+      <textarea
+        class="notes-textarea"
+        id="notes_${safeId}"
+        placeholder="Contact name, date of outreach, outcome, next step…"
+        onclick="event.stopPropagation()"
+        onblur="saveNotes('${d.brand}')"
+      >${rec.notes}</textarea>
+      <div class="notes-saved" id="saved_${safeId}">✓ Saved</div>
+    </div>
+
+    <div class="owner-row">
+      <span class="owner-label">Owner:</span>
+      <input
+        class="owner-input"
+        id="owner_${safeId}"
+        type="text"
+        placeholder="e.g. Jeremy"
+        value="${rec.owner}"
+        onclick="event.stopPropagation()"
+        onblur="saveOwner('${d.brand}')"
+      >
+    </div>
+  </div>
+</div>`;
+  }).join('');
+}
+
+// ── EXPORT CSV ────────────────────────────────────────────────
+function exportCSV() {
+  const store = loadStore();
+  const headers = ['Brand','Category','Priority','Status','Owner','Agencies','Notes'];
+  const rows = DATA.map(d => {
+    const rec = store[d.brand] || {};
+    const agencies = (d.agencies||[]).map(a=>a.name).join(' | ');
+    const priority = d.usOnly ? 'US-only skip' : d.globalPriority ? 'Global priority' : 'EMEA target';
+    return [
+      d.brand,
+      d.category,
+      priority,
+      rec.status || 'Not contacted',
+      rec.owner || '',
+      agencies,
+      (rec.notes||'').replace(/\n/g,' ')
+    ].map(v => `"${String(v).replace(/"/g,'""')}"`).join(',');
+  });
+  const csv = [headers.join(','), ...rows].join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'roar_prospect_map_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── CLOSE MENUS ON OUTSIDE CLICK ──────────────────────────────
+document.addEventListener('click', () => {
+  document.querySelectorAll('.status-menu.open').forEach(m => m.classList.remove('open'));
+});
+
+// ── INIT ──────────────────────────────────────────────────────
+updateDashboard();
+renderCards();
+</script>
+</body>
+</html>

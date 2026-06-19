@@ -3,515 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Roar® | PGA Tour Prospect Map</title>
+<title>Roar® | Sports Partner Intelligence Hub</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-
   :root {
-    --black: #0a0a0a;
-    --surface: #111111;
-    --card: #181818;
-    --border: rgba(255,255,255,0.08);
-    --orange: #FF6B00;
-    --orange-dim: rgba(255,107,0,0.12);
-    --white: #ffffff;
-    --muted: rgba(255,255,255,0.45);
-    --tag-bg: rgba(255,255,255,0.06);
-    --green: #22c55e;
-    --amber: #f59e0b;
-    --blue: #3b82f6;
-    --red: #ef4444;
-    --purple: #a855f7;
+    --black:#0a0a0a; --surface:#111111; --card:#181818; --border:rgba(255,255,255,0.08);
+    --orange:#FF6B00; --orange-dim:rgba(255,107,0,0.12); --white:#ffffff;
+    --muted:rgba(255,255,255,0.45); --tag-bg:rgba(255,255,255,0.06);
+    --green:#22c55e; --amber:#f59e0b; --blue:#3b82f6; --red:#ef4444; --purple:#a855f7;
   }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--black);color:var(--white);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;min-height:100vh;}
 
-  * { margin:0; padding:0; box-sizing:border-box; }
+  header{border-bottom:1px solid var(--border);padding:18px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(10,10,10,0.97);backdrop-filter:blur(12px);z-index:100;flex-wrap:wrap;gap:12px;}
+  .logo{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.5px;}
+  .logo span{color:var(--orange);}
+  .header-meta{font-size:12px;color:var(--muted);}
+  .header-meta strong{color:var(--white);display:block;font-size:13px;}
 
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    line-height: 1.6;
-    min-height: 100vh;
-  }
+  .hero{padding:48px 32px 36px;border-bottom:1px solid var(--border);}
+  .hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(24px,3vw,40px);font-weight:700;letter-spacing:-1px;line-height:1.1;}
+  .hero h1 em{color:var(--orange);font-style:normal;}
+  .hero p{margin-top:12px;color:var(--muted);max-width:680px;font-size:14px;}
+  .hero-stats{display:flex;gap:32px;margin-top:28px;flex-wrap:wrap;}
+  .stat-n{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:var(--orange);letter-spacing:-1px;}
+  .stat-l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;}
 
-  /* HEADER */
-  header {
-    border-bottom: 1px solid var(--border);
-    padding: 18px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    background: rgba(10,10,10,0.97);
-    backdrop-filter: blur(12px);
-    z-index: 200;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .logo {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    flex-shrink: 0;
-  }
-  .logo span { color: var(--orange); }
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .header-meta {
-    font-size: 12px;
-    color: var(--muted);
-    text-align: right;
-  }
-  .header-meta strong { color: var(--white); display: block; font-size: 13px; }
-  .btn-export {
-    background: var(--tag-bg);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 7px 14px;
-    color: var(--muted);
-    font-size: 12px;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-  .btn-export:hover { border-color: var(--orange); color: var(--white); }
+  /* PROPERTY NAV CARDS */
+  .property-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;padding:32px;}
+  .prop-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;text-decoration:none;color:var(--white);transition:border-color 0.2s,transform 0.15s;display:block;}
+  .prop-card:hover{transform:translateY(-2px);}
+  .prop-card.atp:hover{border-color:#3b82f6;}
+  .prop-card.wta:hover{border-color:#a855f7;}
+  .prop-card.dpwt:hover{border-color:#22c55e;}
+  .prop-card.mlb:hover{border-color:#ef4444;}
+  .prop-card.pga:hover{border-color:#f59e0b;}
+  .prop-icon{font-size:28px;margin-bottom:12px;}
+  .prop-name{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;letter-spacing:-0.3px;}
+  .prop-sub{font-size:12px;color:var(--muted);margin-top:3px;}
+  .prop-tags{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap;}
+  .prop-tag{font-size:10px;padding:3px 7px;border-radius:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;}
+  .tag-contracted{background:rgba(34,197,94,0.12);color:var(--green);border:1px solid rgba(34,197,94,0.25);}
+  .tag-pipeline{background:rgba(255,107,0,0.12);color:var(--orange);border:1px solid rgba(255,107,0,0.25);}
+  .prop-stats{display:flex;gap:16px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);}
+  .ps{text-align:center;}
+  .ps-n{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;}
+  .ps-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:2px;}
 
-  /* PIPELINE DASHBOARD */
-  .dashboard {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 20px 32px;
-  }
-  .dashboard-title {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
-    color: var(--muted);
-    margin-bottom: 14px;
-    font-weight: 600;
-  }
-  .pipeline-track {
-    display: flex;
-    gap: 8px;
-    align-items: stretch;
-    flex-wrap: wrap;
-  }
-  .pipeline-stage {
-    flex: 1;
-    min-width: 120px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 14px;
-    cursor: pointer;
-    transition: border-color 0.15s;
-  }
-  .pipeline-stage:hover { border-color: rgba(255,255,255,0.2); }
-  .pipeline-stage.active-stage { border-color: var(--orange); }
-  .stage-count {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 1;
-  }
-  .stage-label {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-  .stage-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    display: inline-block; margin-right: 5px; vertical-align: middle;
-  }
+  /* SECTION HEADERS */
+  .section{padding:0 32px 40px;}
+  .section-title{font-family:'Space Grotesk',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);font-weight:600;padding:28px 0 18px;border-top:1px solid var(--border);}
 
-  /* HERO */
-  .hero {
-    padding: 36px 32px 28px;
-    border-bottom: 1px solid var(--border);
-  }
-  .hero h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(22px, 3vw, 34px);
-    font-weight: 700;
-    letter-spacing: -1px;
-    line-height: 1.15;
-    max-width: 700px;
-  }
-  .hero h1 em { color: var(--orange); font-style: normal; }
-  .hero p { margin-top: 10px; color: var(--muted); max-width: 620px; font-size: 13px; }
-  .hero-stats { display: flex; gap: 28px; margin-top: 22px; flex-wrap: wrap; }
-  .stat-n {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--orange);
-    letter-spacing: -1px;
-  }
-  .stat-l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+  /* CROSS-PROPERTY TABLE */
+  .overlap-grid{display:grid;gap:10px;}
+  .overlap-row{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .overlap-brand{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;min-width:160px;}
+  .overlap-category{font-size:11px;color:var(--muted);min-width:120px;}
+  .overlap-props{display:flex;gap:6px;flex-wrap:wrap;flex:1;}
+  .prop-pill{font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap;}
+  .pill-atp{background:rgba(59,130,246,0.15);color:#93c5fd;border:1px solid rgba(59,130,246,0.25);}
+  .pill-wta{background:rgba(168,85,247,0.15);color:#c4b5fd;border:1px solid rgba(168,85,247,0.25);}
+  .pill-dpwt{background:rgba(34,197,94,0.15);color:#86efac;border:1px solid rgba(34,197,94,0.25);}
+  .pill-mlb{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.25);}
+  .pill-pga{background:rgba(245,158,11,0.15);color:#fcd34d;border:1px solid rgba(245,158,11,0.25);}
+  .overlap-count{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--orange);min-width:30px;text-align:right;}
+  .overlap-note{font-size:11px;color:var(--muted);flex-basis:100%;margin-top:4px;}
 
-  /* LEGEND */
-  .legend-bar {
-    padding: 12px 32px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .legend-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-right: 4px; }
-  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
-  .dot { width: 8px; height: 8px; border-radius: 50%; }
+  /* PRIORITY TABLE */
+  .priority-grid{display:grid;gap:10px;}
+  .priority-row{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:0 10px 10px 0;padding:14px 18px;display:grid;grid-template-columns:24px 1fr auto;gap:12px;align-items:start;}
+  .priority-num{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:var(--orange);}
+  .priority-brand{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;}
+  .priority-detail{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5;}
+  .priority-agency{font-size:11px;background:var(--tag-bg);border:1px solid var(--border);border-radius:5px;padding:4px 10px;white-space:nowrap;align-self:center;}
 
-  /* CONTROLS */
-  .controls {
-    padding: 16px 32px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .search-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 7px 14px;
-    color: var(--white);
-    font-size: 13px;
-    font-family: inherit;
-    width: 220px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .search-box:focus { border-color: var(--orange); }
-  .search-box::placeholder { color: var(--muted); }
-  .filter-btn {
-    background: var(--tag-bg);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 5px 12px;
-    color: var(--muted);
-    font-size: 12px;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-  .filter-btn:hover { border-color: var(--orange); color: var(--white); }
-  .filter-btn.active { background: var(--orange-dim); border-color: var(--orange); color: var(--orange); }
+  /* AGENCY CONSOLIDATION */
+  .agency-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;}
+  .agency-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;}
+  .agency-name{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;}
+  .agency-holdco{font-size:11px;color:var(--muted);margin-top:2px;}
+  .agency-brands{margin-top:12px;display:flex;flex-direction:column;gap:6px;}
+  .agency-brand-row{display:flex;align-items:center;gap:8px;font-size:12px;}
+  .agency-brand-name{font-weight:500;min-width:140px;}
+  .agency-brand-props{display:flex;gap:4px;flex-wrap:wrap;}
 
-  /* GRID */
-  .grid-wrap { padding: 24px 32px; }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 14px;
-  }
+  footer{margin-top:32px;border-top:1px solid var(--border);padding:20px 32px;font-size:11px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  footer strong{color:var(--orange);}
 
-  /* CARD */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 18px;
-    transition: border-color 0.2s, transform 0.15s;
-    position: relative;
-  }
-  .card:hover { border-color: rgba(255,107,0,0.3); transform: translateY(-1px); }
-  .card.open { border-color: var(--orange); }
-
-  /* Status stripe on left edge */
-  .card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 12px; bottom: 12px;
-    width: 3px;
-    border-radius: 0 2px 2px 0;
-    background: transparent;
-    transition: background 0.2s;
-  }
-  .card[data-status="Not contacted"]::before { background: var(--muted); }
-  .card[data-status="Contacted"]::before { background: var(--blue); }
-  .card[data-status="Meeting booked"]::before { background: var(--amber); }
-  .card[data-status="In conversation"]::before { background: var(--purple); }
-  .card[data-status="Proposal sent"]::before { background: var(--orange); }
-  .card[data-status="Closed"]::before { background: var(--green); }
-  .card[data-status="Not a fit"]::before { background: var(--red); }
-
-  .card-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 10px;
-    cursor: pointer;
-  }
-  .card-left { flex: 1; min-width: 0; }
-  .card-brand {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.2;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .card-role { font-size: 11px; color: var(--muted); margin-top: 2px; font-style: italic; }
-  .card-cat {
-    background: var(--orange-dim);
-    color: var(--orange);
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    padding: 3px 7px;
-    border-radius: 4px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .card-meta-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 10px;
-    flex-wrap: wrap;
-  }
-  .flag-tag {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    background: var(--tag-bg);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 2px 7px;
-    font-size: 11px;
-    color: var(--muted);
-  }
-  .flag-tag .dot { width: 6px; height: 6px; }
-
-  /* STATUS BADGE inline */
-  .status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 11px;
-    font-weight: 500;
-    padding: 2px 8px;
-    border-radius: 4px;
-    border: 1px solid;
-    cursor: pointer;
-    transition: opacity 0.15s;
-    white-space: nowrap;
-  }
-  .status-badge:hover { opacity: 0.75; }
-  .status-Not-contacted { color: var(--muted); border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); }
-  .status-Contacted { color: var(--blue); border-color: rgba(59,130,246,0.3); background: rgba(59,130,246,0.08); }
-  .status-Meeting-booked { color: var(--amber); border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.08); }
-  .status-In-conversation { color: var(--purple); border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.08); }
-  .status-Proposal-sent { color: var(--orange); border-color: rgba(255,107,0,0.3); background: rgba(255,107,0,0.08); }
-  .status-Closed { color: var(--green); border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.08); }
-  .status-Not-a-fit { color: var(--red); border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.08); }
-
-  /* STATUS DROPDOWN */
-  .status-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 300;
-    background: #1e1e1e;
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 8px;
-    padding: 6px;
-    min-width: 170px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-    display: none;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .status-menu.open { display: flex; }
-  .status-menu-item {
-    padding: 7px 10px;
-    border-radius: 5px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: background 0.1s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .status-menu-item:hover { background: rgba(255,255,255,0.07); }
-  .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-
-  .card-toggle-row {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .card-toggle {
-    font-size: 11px;
-    color: var(--orange);
-    cursor: pointer;
-    opacity: 0.6;
-    transition: opacity 0.15s;
-  }
-  .card:hover .card-toggle, .card.open .card-toggle { opacity: 1; }
-
-  /* EXPANDED */
-  .card-detail {
-    display: none;
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
-  }
-  .card.open .card-detail { display: block; }
-
-  .detail-section { margin-bottom: 14px; }
-  .detail-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
-    color: var(--muted);
-    margin-bottom: 7px;
-    font-weight: 600;
-  }
-
-  .competitor-list { display: flex; flex-direction: column; gap: 5px; }
-  .competitor-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 7px 10px;
-    background: var(--tag-bg);
-    border-radius: 6px;
-    border: 1px solid var(--border);
-  }
-  .comp-scope {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 2px 5px;
-    border-radius: 3px;
-    white-space: nowrap;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-  .comp-scope.global { background: rgba(34,197,94,0.15); color: var(--green); }
-  .comp-scope.emea { background: rgba(59,130,246,0.15); color: var(--blue); }
-  .comp-scope.us { background: rgba(245,158,11,0.15); color: var(--amber); }
-  .comp-scope.uk { background: rgba(59,130,246,0.15); color: var(--blue); }
-  .comp-scope.apac { background: rgba(168,85,247,0.15); color: var(--purple); }
-  .comp-name { font-size: 13px; font-weight: 500; }
-  .comp-note { font-size: 11px; color: var(--muted); margin-top: 1px; }
-
-  .agency-list { display: flex; flex-direction: column; gap: 4px; }
-  .agency-row { display: flex; gap: 8px; align-items: baseline; font-size: 12px; }
-  .agency-name { font-weight: 500; }
-  .agency-note { color: var(--muted); font-size: 11px; }
-
-  .roar-note {
-    background: var(--orange-dim);
-    border: 1px solid rgba(255,107,0,0.2);
-    border-radius: 6px;
-    padding: 10px 12px;
-    font-size: 12px;
-    color: rgba(255,255,255,0.8);
-    line-height: 1.5;
-  }
-  .roar-note strong { color: var(--orange); }
-
-  .skip-banner {
-    background: rgba(239,68,68,0.08);
-    border: 1px solid rgba(239,68,68,0.2);
-    border-radius: 6px;
-    padding: 8px 12px;
-    font-size: 12px;
-    color: rgba(239,68,68,0.8);
-    margin-bottom: 12px;
-  }
-
-  /* NOTES */
-  .notes-wrap { margin-top: 14px; }
-  .notes-textarea {
-    width: 100%;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 10px 12px;
-    color: var(--white);
-    font-family: inherit;
-    font-size: 12px;
-    line-height: 1.5;
-    resize: vertical;
-    min-height: 72px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .notes-textarea:focus { border-color: var(--orange); }
-  .notes-textarea::placeholder { color: rgba(255,255,255,0.2); }
-  .notes-saved {
-    font-size: 10px;
-    color: var(--green);
-    margin-top: 4px;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .notes-saved.show { opacity: 1; }
-
-  /* OWNER */
-  .owner-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 10px;
-  }
-  .owner-label { font-size: 11px; color: var(--muted); white-space: nowrap; }
-  .owner-input {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    padding: 4px 10px;
-    color: var(--white);
-    font-family: inherit;
-    font-size: 12px;
-    outline: none;
-    width: 160px;
-    transition: border-color 0.2s;
-  }
-  .owner-input:focus { border-color: var(--orange); }
-  .owner-input::placeholder { color: rgba(255,255,255,0.2); }
-
-  /* EMPTY */
-  .empty { text-align: center; padding: 56px 32px; color: var(--muted); grid-column: 1/-1; }
-  .empty h3 { font-size: 18px; color: var(--white); margin-bottom: 8px; }
-
-  /* FOOTER */
-  footer {
-    margin-top: 32px;
-    border-top: 1px solid var(--border);
-    padding: 18px 32px;
-    font-size: 11px;
-    color: var(--muted);
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  footer strong { color: var(--orange); }
-
-  @media (max-width: 640px) {
-    header, .hero, .controls, .legend-bar, .grid-wrap, .dashboard { padding-left: 16px; padding-right: 16px; }
-    .grid { grid-template-columns: 1fr; }
-    .pipeline-track { flex-direction: column; }
+  @media(max-width:640px){
+    header,.hero,.section{padding-left:16px;padding-right:16px;}
+    .property-grid{padding:16px;grid-template-columns:1fr;}
+    .overlap-row{flex-direction:column;align-items:flex-start;}
+    .priority-row{grid-template-columns:24px 1fr;}
+    .agency-grid{grid-template-columns:1fr;}
   }
 </style>
 </head>
@@ -519,1367 +103,453 @@
 
 <header>
   <div class="logo">Roar<span>®</span></div>
-  <div class="header-right">
-    <button class="btn-export" onclick="exportCSV()">↓ Export CSV</button>
-    <div class="header-meta">
-      <strong>PGA Tour Prospect Map</strong>
-      June 2026 · Confidential
-    </div>
+  <div class="header-meta">
+    <strong>Sports Partner Intelligence Hub</strong>
+    June 2026 · Confidential
   </div>
 </header>
 
-<div class="dashboard">
-  <div class="dashboard-title">Pipeline Overview — click a stage to filter</div>
-  <div class="pipeline-track">
-    <div class="pipeline-stage" onclick="filterByStatus('all')" id="stage-all">
-      <div class="stage-count" id="count-all">—</div>
-      <div class="stage-label">All prospects</div>
-    </div>
-    <div class="pipeline-stage" onclick="filterByStatus('Not contacted')" id="stage-Not contacted">
-      <div class="stage-count" id="count-Not contacted" style="color:var(--muted)">—</div>
-      <div class="stage-label"><span class="stage-dot" style="background:var(--muted)"></span>Not contacted</div>
-    </div>
-    <div class="pipeline-stage" onclick="filterByStatus('Contacted')" id="stage-Contacted">
-      <div class="stage-count" id="count-Contacted" style="color:var(--blue)">—</div>
-      <div class="stage-label"><span class="stage-dot" style="background:var(--blue)"></span>Contacted</div>
-    </div>
-    <div class="pipeline-stage" onclick="filterByStatus('Meeting booked')" id="stage-Meeting booked">
-      <div class="stage-count" id="count-Meeting booked" style="color:var(--amber)">—</div>
-      <div class="stage-label"><span class="stage-dot" style="background:var(--amber)"></span>Meeting booked</div>
-    </div>
-    <div class="pipeline-stage" onclick="filterByStatus('In conversation')" id="stage-In conversation">
-      <div class="stage-count" id="count-In conversation" style="color:var(--purple)">—</div>
-      <div class="stage-label"><span class="stage-dot" style="background:var(--purple)"></span>In conversation</div>
-    </div>
-    <div class="pipeline-stage" onclick="filterByStatus('Proposal sent')" id="stage-Proposal sent">
-      <div class="stage-count" id="count-Proposal sent" style="color:var(--orange)">—</div>
-      <div class="stage-label"><span class="stage-dot" style="background:var(--orange)"></span>Proposal sent</div>
-    </div>
-    <div class="pipeline-stage" onclick="filterByStatus('Closed')" id="stage-Closed">
-      <div class="stage-count" id="count-Closed" style="color:var(--green)">—</div>
-      <div class="stage-label"><span class="stage-dot" style="background:var(--green)"></span>Closed</div>
-    </div>
-    <div class="pipeline-stage" onclick="filterByStatus('Not a fit')" id="stage-Not a fit">
-      <div class="stage-count" id="count-Not a fit" style="color:var(--red)">—</div>
-      <div class="stage-label"><span class="stage-dot" style="background:var(--red)"></span>Not a fit</div>
-    </div>
-  </div>
-</div>
-
 <div class="hero">
-  <h1>PGA Tour Marketing Partners<br><em>Demand-Side Prospect Intelligence</em></h1>
-  <p>All official PGA Tour marketing partners mapped by sector, with global and territory-level competitors and relevant media / advertising agency contacts. Contact media teams only — not sponsorship or partnerships.</p>
+  <h1>Five Rights Holders.<br><em>One Demand Intelligence Platform.</em></h1>
+  <p>Cross-property partner mapping across ATP, WTA, DP World Tour, MLB and PGA Tour. Identifies brand overlaps, priority contacts and consolidated agency relationships across Roar's contracted and pipeline supply.</p>
   <div class="hero-stats">
-    <div class="stat"><div class="stat-n">47</div><div class="stat-l">Partners mapped</div></div>
-    <div class="stat"><div class="stat-n">17</div><div class="stat-l">Sectors</div></div>
-    <div class="stat"><div class="stat-n">120+</div><div class="stat-l">Competitor brands</div></div>
-    <div class="stat"><div class="stat-n">6</div><div class="stat-l">US-only / skip</div></div>
+    <div class="stat"><div class="stat-n">5</div><div class="stat-l">Rights holders</div></div>
+    <div class="stat"><div class="stat-n">98</div><div class="stat-l">Partners mapped</div></div>
+    <div class="stat"><div class="stat-n">14</div><div class="stat-l">Cross-property brands</div></div>
+    <div class="stat"><div class="stat-n">8</div><div class="stat-l">Priority agencies</div></div>
   </div>
 </div>
 
-<div class="legend-bar">
-  <span class="legend-label">Scope key:</span>
-  <div class="legend-item"><div class="dot" style="background:var(--green)"></div> Global</div>
-  <div class="legend-item"><div class="dot" style="background:var(--blue)"></div> EMEA / UK</div>
-  <div class="legend-item"><div class="dot" style="background:var(--amber)"></div> US-only competitor</div>
-  <div class="legend-item"><div class="dot" style="background:var(--red)"></div> US-only brand (skip)</div>
+<!-- PROPERTY NAVIGATION -->
+<div class="property-grid">
+  <a href="atp.html" class="prop-card atp">
+    <div class="prop-icon">🎾</div>
+    <div class="prop-name">ATP Tour</div>
+    <div class="prop-sub">Men's Tennis · Global</div>
+    <div class="prop-tags">
+      <span class="prop-tag tag-contracted">Contracted</span>
+    </div>
+    <div class="prop-stats">
+      <div class="ps"><div class="ps-n" style="color:#3b82f6">20</div><div class="ps-l">Partners</div></div>
+      <div class="ps"><div class="ps-n" style="color:#3b82f6">12</div><div class="ps-l">Sectors</div></div>
+      <div class="ps"><div class="ps-n" style="color:#3b82f6">70+</div><div class="ps-l">Competitors</div></div>
+    </div>
+  </a>
+  <a href="wta.html" class="prop-card wta">
+    <div class="prop-icon">🎾</div>
+    <div class="prop-name">WTA Tour</div>
+    <div class="prop-sub">Women's Tennis · Global</div>
+    <div class="prop-tags">
+      <span class="prop-tag tag-pipeline">Pipeline</span>
+    </div>
+    <div class="prop-stats">
+      <div class="ps"><div class="ps-n" style="color:#a855f7">8</div><div class="ps-l">Partners</div></div>
+      <div class="ps"><div class="ps-n" style="color:#a855f7">7</div><div class="ps-l">Sectors</div></div>
+      <div class="ps"><div class="ps-n" style="color:#a855f7">35+</div><div class="ps-l">Competitors</div></div>
+    </div>
+  </a>
+  <a href="dpwt.html" class="prop-card dpwt">
+    <div class="prop-icon">⛳</div>
+    <div class="prop-name">DP World Tour</div>
+    <div class="prop-sub">Men's Golf · Global</div>
+    <div class="prop-tags">
+      <span class="prop-tag tag-contracted">Contracted</span>
+    </div>
+    <div class="prop-stats">
+      <div class="ps"><div class="ps-n" style="color:#22c55e">13</div><div class="ps-l">Partners</div></div>
+      <div class="ps"><div class="ps-n" style="color:#22c55e">9</div><div class="ps-l">Sectors</div></div>
+      <div class="ps"><div class="ps-n" style="color:#22c55e">55+</div><div class="ps-l">Competitors</div></div>
+    </div>
+  </a>
+  <a href="mlb.html" class="prop-card mlb">
+    <div class="prop-icon">⚾</div>
+    <div class="prop-name">MLB</div>
+    <div class="prop-sub">Major League Baseball · Global</div>
+    <div class="prop-tags">
+      <span class="prop-tag tag-pipeline">Pipeline</span>
+    </div>
+    <div class="prop-stats">
+      <div class="ps"><div class="ps-n" style="color:#ef4444">12</div><div class="ps-l">Partners</div></div>
+      <div class="ps"><div class="ps-n" style="color:#ef4444">9</div><div class="ps-l">Sectors</div></div>
+      <div class="ps"><div class="ps-n" style="color:#ef4444">45+</div><div class="ps-l">Competitors</div></div>
+    </div>
+  </a>
+  <a href="pgatour.html" class="prop-card pga">
+    <div class="prop-icon">⛳</div>
+    <div class="prop-name">PGA Tour</div>
+    <div class="prop-sub">Men's Golf · Americas</div>
+    <div class="prop-tags">
+      <span class="prop-tag tag-pipeline">Pipeline</span>
+    </div>
+    <div class="prop-stats">
+      <div class="ps"><div class="ps-n" style="color:#f59e0b">47</div><div class="ps-l">Partners</div></div>
+      <div class="ps"><div class="ps-n" style="color:#f59e0b">17</div><div class="ps-l">Sectors</div></div>
+      <div class="ps"><div class="ps-n" style="color:#f59e0b">120+</div><div class="ps-l">Competitors</div></div>
+    </div>
+  </a>
 </div>
 
-<div class="controls">
-  <input class="search-box" type="text" id="searchInput" placeholder="Search brand, sector, agency…" oninput="filterCards()">
-  <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
-  <button class="filter-btn" onclick="setFilter('global',this)">Global priority</button>
-  <button class="filter-btn" onclick="setFilter('us-skip',this)">US-only skip</button>
-  <button class="filter-btn" onclick="setFilter('Financial Services',this)">Financial</button>
-  <button class="filter-btn" onclick="setFilter('Travel',this)">Travel</button>
-  <button class="filter-btn" onclick="setFilter('Automotive',this)">Auto</button>
-  <button class="filter-btn" onclick="setFilter('Beer / Alcohol',this)">Drinks</button>
-  <button class="filter-btn" onclick="setFilter('Technology',this)">Tech</button>
-  <button class="filter-btn" onclick="setFilter('Sports / Health',this)">Sport & Health</button>
+<!-- CROSS-PROPERTY OVERLAPS -->
+<div class="section">
+  <div class="section-title">Cross-Property Brand Overlaps — brands active across multiple rights holders</div>
+  <div class="overlap-grid">
+
+    <div class="overlap-row">
+      <div class="overlap-brand">Emirates</div>
+      <div class="overlap-category">Airlines</div>
+      <div class="overlap-props">
+        <span class="prop-pill pill-atp">ATP Premier</span>
+        <span class="prop-pill pill-dpwt">DP World Tour</span>
+      </div>
+      <div class="overlap-count">2</div>
+      <div class="overlap-note">Highest-frequency dual buyer in Roar's universe. Initiative EMEA is the single contact. Already deep in premium sports digital.</div>
+    </div>
+
+    <div class="overlap-row">
+      <div class="overlap-brand">Rolex</div>
+      <div class="overlap-category">Luxury Watches</div>
+      <div class="overlap-props">
+        <span class="prop-pill pill-atp">ATP Timekeeper</span>
+        <span class="prop-pill pill-wta">WTA Global Partner</span>
+        <span class="prop-pill pill-dpwt">DP World Tour Timekeeper</span>
+      </div>
+      <div class="overlap-count">3</div>
+      <div class="overlap-note">The most cross-property luxury brand across all Roar supply. Three-tour presence. Approach via Carat/Dentsu luxury sport team.</div>
+    </div>
+
+    <div class="overlap-row">
+      <div class="overlap-brand">PIF (Saudi Sovereign Fund)</div>
+      <div class="overlap-category">Sovereign Wealth</div>
+      <div class="overlap-props">
+        <span class="prop-pill pill-atp">ATP Platinum</span>
+        <span class="prop-pill pill-wta">WTA Global Partner</span>
+      </div>
+      <div class="overlap-count">2</div>
+      <div class="overlap-note">Only global partner of both ATP and WTA simultaneously. Rankings naming rights across both tours. Direct approach via PIF sports team.</div>
+    </div>
+
+    <div class="overlap-row">
+      <div class="overlap-brand">Stella Artois / AB InBev</div>
+      <div class="overlap-category">Beer / Alcohol</div>
+      <div class="overlap-props">
+        <span class="prop-pill pill-atp">ATP Official Beer</span>
+        <span class="prop-pill pill-dpwt">Michelob ULTRA (DP World Tour)</span>
+        <span class="prop-pill pill-mlb">Budweiser + Corona (MLB)</span>
+      </div>
+      <div class="overlap-count">3</div>
+      <div class="overlap-note">AB InBev is Roar's most important single agency conversation — EssenceMediacom GroupM covers Stella (ATP + Roar proof point), Michelob ULTRA (DP World Tour), Budweiser and Corona (MLB). Four brands, one agency, three properties.</div>
+    </div>
+
+    <div class="overlap-row">
+      <div class="overlap-brand">Mastercard</div>
+      <div class="overlap-category">Financial Services</div>
+      <div class="overlap-props">
+        <span class="prop-pill pill-mlb">MLB All-Star Presenting</span>
+        <span class="prop-pill pill-pga">PGA Tour Partner</span>
+      </div>
+      <div class="overlap-count">2</div>
+      <div class="overlap-note">Multi-sport buyer with nearly 30 years in baseball and active golf presence. UM/IPG sports team is the contact. Visa and Amex are the competitive targets.</div>
+    </div>
+
+    <div class="overlap-row">
+      <div class="overlap-brand">Morgan Stanley</div>
+      <div class="overlap-category">Investment Banking</div>
+      <div class="overlap-props">
+        <span class="prop-pill pill-wta">WTA Global Partner</span>
+        <span class="prop-pill pill-pga">PGA Tour Partner</span>
+      </div>
+      <div class="overlap-count">2</div>
+      <div class="overlap-note">Golf and tennis dual-buyer. Mediahub/IPG contact. HSBC (Mindshare) is the priority EMEA competitor — active in both golf and tennis.</div>
+    </div>
+
+    <div class="overlap-row">
+      <div class="overlap-brand">Verizon (Deutsche Telekom)</div>
+      <div class="overlap-category">Telecom</div>
+      <div class="overlap-props">
+        <span class="prop-pill pill-atp">ATP US Partner</span>
+        <span class="prop-pill pill-wta">WTA US Partner</span>
+        <span class="prop-pill pill-mlb">MLB Official Wireless</span>
+      </div>
+      <div class="overlap-count">3</div>
+      <div class="overlap-note">Three-property US buyer. Parent Deutsche Telekom (Mediacom/GroupM) is the EMEA entry point. Vodafone and Orange are the EMEA equivalents.</div>
+    </div>
+
+    <div class="overlap-row">
+      <div class="overlap-brand">Adobe</div>
+      <div class="overlap-category">Technology / SaaS</div>
+      <div class="overlap-props">
+        <span class="prop-pill pill-mlb">MLB Official Partner</span>
+        <span class="prop-pill pill-pga">PGA Tour Partner</span>
+      </div>
+      <div class="overlap-count">2</div>
+      <div class="overlap-note">B2B SaaS dual-buyer across baseball and golf. Carat/Dentsu global. Salesforce (MG OMD EMEA) is the highest-value competitive target.</div>
+    </div>
+
+    <div class="overlap-row">
+      <div class="overlap-brand">Lexus (Toyota)</div>
+      <div class="overlap-category">Automotive</div>
+      <div class="overlap-props">
+        <span class="prop-pill pill-atp">ATP Platinum Partner</span>
+        <span class="prop-pill pill-pga">PGA Tour (via LTA)</span>
+      </div>
+      <div class="overlap-count">2</div>
+      <div class="overlap-note">Premium auto committed to both major tennis and golf ecosystems. Carat/Dentsu contact. BMW (DP World Tour) and Mercedes-Benz (WTA) complete the three-brand luxury auto picture.</div>
+    </div>
+
+    <div class="overlap-row">
+      <div class="overlap-brand">Infosys / Accenture</div>
+      <div class="overlap-category">IT / Consulting</div>
+      <div class="overlap-props">
+        <span class="prop-pill pill-atp">Infosys — ATP Gold</span>
+        <span class="prop-pill pill-wta">Accenture — WTA Partner</span>
+        <span class="prop-pill pill-pga">Cognizant — PGA Tour</span>
+      </div>
+      <div class="overlap-count">3</div>
+      <div class="overlap-note">IT services category fully committed to premium sport across all three touring bodies. Different brands, same vertical. TCS and Capgemini are the competitive gap — both buying golf and athletics but not yet tennis/golf combo.</div>
+    </div>
+
+    <div class="overlap-row">
+      <div class="overlap-brand">BMW / Mercedes-Benz / Lexus</div>
+      <div class="overlap-category">Premium Automotive</div>
+      <div class="overlap-props">
+        <span class="prop-pill pill-dpwt">BMW — DP World Tour</span>
+        <span class="prop-pill pill-wta">Mercedes — WTA Premier</span>
+        <span class="prop-pill pill-atp">Lexus — ATP Platinum</span>
+        <span class="prop-pill pill-pga">Genesis — PGA Tour</span>
+      </div>
+      <div class="overlap-count">4</div>
+      <div class="overlap-note">Roar's most important sector: all four premium auto brands distributed across all properties. Porsche is the conspicuous gap. Approach Mediacom (BMW/Audi), UM (Mercedes), Carat (Lexus) and WPP/GTB (Genesis/Ford) as separate conversations.</div>
+    </div>
+
+    <div class="overlap-row">
+      <div class="overlap-brand">OFX / Corpay</div>
+      <div class="overlap-category">FX / Payments</div>
+      <div class="overlap-props">
+        <span class="prop-pill pill-atp">OFX — ATP Official FX</span>
+        <span class="prop-pill pill-wta">Corpay — WTA Global Partner</span>
+      </div>
+      <div class="overlap-count">2</div>
+      <div class="overlap-note">FX/payments category committed to both tennis tours. Wise is the highest-value competitive target — most digitally aggressive global FX buyer. Strong audience alignment with frequent international travellers.</div>
+    </div>
+
+    <div class="overlap-row">
+      <div class="overlap-brand">AWS / SAP / Infosys</div>
+      <div class="overlap-category">Enterprise Technology</div>
+      <div class="overlap-props">
+        <span class="prop-pill pill-dpwt">AWS — DP World Tour</span>
+        <span class="prop-pill pill-wta">SAP (historic) — WTA</span>
+        <span class="prop-pill pill-atp">Infosys — ATP</span>
+      </div>
+      <div class="overlap-count">3</div>
+      <div class="overlap-note">Enterprise cloud/tech across all three non-baseball properties. Microsoft Azure is the single biggest competitive gap — global sports media budget, active EMEA buying team, Initiative contact.</div>
+    </div>
+
+    <div class="overlap-row">
+      <div class="overlap-brand">Vestas / LONGi Solar</div>
+      <div class="overlap-category">Energy / Sustainability</div>
+      <div class="overlap-props">
+        <span class="prop-pill pill-dpwt">Vestas — DP World Tour</span>
+        <span class="prop-pill pill-atp">LONGi Solar — ATP</span>
+      </div>
+      <div class="overlap-count">2</div>
+      <div class="overlap-note">Sustainability brands entering premium sport across golf and tennis. TotalEnergies (Havas) is the largest accessible energy media buyer and the priority competitive target.</div>
+    </div>
+
+  </div>
 </div>
 
-<div class="grid-wrap">
-  <div class="grid" id="cardGrid"></div>
+<!-- TOP 10 PRIORITIES -->
+<div class="section">
+  <div class="section-title">Top 10 Global Priority Contacts — highest value, most accessible, EMEA-first</div>
+  <div class="priority-grid">
+
+    <div class="priority-row">
+      <div class="priority-num">1</div>
+      <div>
+        <div class="priority-brand">EssenceMediacom (GroupM) — AB InBev</div>
+        <div class="priority-detail">Single agency conversation covers Stella Artois (ATP + Roar proof point), Michelob ULTRA (DP World Tour), Budweiser and Corona (MLB). Four brands, three properties, one contact. The highest-leverage call in Roar's pipeline.</div>
+      </div>
+      <div class="priority-agency">EssenceMediacom / GroupM</div>
+    </div>
+
+    <div class="priority-row">
+      <div class="priority-num">2</div>
+      <div>
+        <div class="priority-brand">Initiative (IPG) — Emirates</div>
+        <div class="priority-detail">Emirates spans ATP Premier AND DP World Tour Official Partner. Already the deepest dual-property buyer in Roar's supply. Initiative EMEA sports team is one conversation for both properties.</div>
+      </div>
+      <div class="priority-agency">Initiative / IPG</div>
+    </div>
+
+    <div class="priority-row">
+      <div class="priority-num">3</div>
+      <div>
+        <div class="priority-brand">Mediacom (GroupM) — BMW + Audi + Volkswagen Group</div>
+        <div class="priority-detail">BMW is a Roar contracted supply partner (DP World Tour). Mediacom covers BMW and Audi globally — one relationship for both major German premium auto brands. Highest-value EMEA auto conversation.</div>
+      </div>
+      <div class="priority-agency">Mediacom / GroupM</div>
+    </div>
+
+    <div class="priority-row">
+      <div class="priority-num">4</div>
+      <div>
+        <div class="priority-brand">Carat (Dentsu) — LVMH Portfolio</div>
+        <div class="priority-detail">Carat covers TAG Heuer, Hublot and Rimowa across the LVMH luxury portfolio. TAG Heuer and Hublot are both active sports digital buyers competing directly with Rolex across all five properties. Single agency, multiple luxury brands.</div>
+      </div>
+      <div class="priority-agency">Carat / Dentsu</div>
+    </div>
+
+    <div class="priority-row">
+      <div class="priority-num">5</div>
+      <div>
+        <div class="priority-brand">PHD (Omnicom) — Heineken</div>
+        <div class="priority-detail">Heineken is the largest sports beer buyer not yet in Roar's supply ecosystem. UCL, F1, tennis adjacency. PHD sports team is the EMEA contact. Budgets are established, audience alignment is proven.</div>
+      </div>
+      <div class="priority-agency">PHD / Omnicom</div>
+    </div>
+
+    <div class="priority-row">
+      <div class="priority-num">6</div>
+      <div>
+        <div class="priority-brand">Mindshare (GroupM) — HSBC</div>
+        <div class="priority-detail">HSBC is the most active EMEA investment bank in premium sport and a direct competitor to Morgan Stanley (WTA) and JP Morgan globally. Golf and tennis heritage. Mindshare GroupM EMEA sports team.</div>
+      </div>
+      <div class="priority-agency">Mindshare / GroupW</div>
+    </div>
+
+    <div class="priority-row">
+      <div class="priority-num">7</div>
+      <div>
+        <div class="priority-brand">UM (IPG) — Mercedes-Benz</div>
+        <div class="priority-detail">Mercedes-Benz signed the largest deal in women's sports history as WTA Premier Partner from 2026. Active across multiple sports properties. UM EMEA is the contact for the biggest automotive media budget in women's sport.</div>
+      </div>
+      <div class="priority-agency">UM / IPG</div>
+    </div>
+
+    <div class="priority-row">
+      <div class="priority-num">8</div>
+      <div>
+        <div class="priority-brand">Initiative (IPG) — Microsoft Azure</div>
+        <div class="priority-detail">Microsoft Azure is the largest cloud brand media buyer globally and the conspicuous gap in enterprise tech across all five Roar properties. AWS (DP World Tour), Infosys (ATP) and Accenture (WTA) are all active — Azure is the missing piece.</div>
+      </div>
+      <div class="priority-agency">Initiative / IPG</div>
+    </div>
+
+    <div class="priority-row">
+      <div class="priority-num">9</div>
+      <div>
+        <div class="priority-brand">Carat (Diageo) — Johnnie Walker + Guinness</div>
+        <div class="priority-detail">Diageo has golf heritage (Johnnie Walker US Open) and sports media scale (Guinness rugby). Carat is the global AOR. Active across premium sport categories that directly align with ATP and DP World Tour demographics.</div>
+      </div>
+      <div class="priority-agency">Carat / Dentsu</div>
+    </div>
+
+    <div class="priority-row">
+      <div class="priority-num">10</div>
+      <div>
+        <div class="priority-brand">M/SIX (WPP) — British Airways</div>
+        <div class="priority-detail">British Airways is the EMEA-headquartered competitor to Emirates across both ATP and DP World Tour inventory. Premium male audience, international traveller profile, golf/tennis heritage. M/SIX WPP is the media contact.</div>
+      </div>
+      <div class="priority-agency">M/SIX / WPP</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- AGENCY CONSOLIDATION VIEW -->
+<div class="section">
+  <div class="section-title">Agency Consolidation — one contact, multiple brands across properties</div>
+  <div class="agency-grid">
+
+    <div class="agency-card">
+      <div class="agency-name">EssenceMediacom</div>
+      <div class="agency-holdco">GroupM / WPP</div>
+      <div class="agency-brands">
+        <div class="agency-brand-row"><span class="agency-brand-name">Stella Artois</span><div class="agency-brand-props"><span class="prop-pill pill-atp">ATP</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">Michelob ULTRA</span><div class="agency-brand-props"><span class="prop-pill pill-dpwt">DPWT</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">Budweiser / Bud Light</span><div class="agency-brand-props"><span class="prop-pill pill-mlb">MLB</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">Corona</span><div class="agency-brand-props"><span class="prop-pill pill-mlb">MLB</span></div></div>
+      </div>
+    </div>
+
+    <div class="agency-card">
+      <div class="agency-name">Carat</div>
+      <div class="agency-holdco">Dentsu</div>
+      <div class="agency-brands">
+        <div class="agency-brand-row"><span class="agency-brand-name">TAG Heuer</span><div class="agency-brand-props"><span class="prop-pill pill-atp">ATP</span><span class="prop-pill pill-wta">WTA</span><span class="prop-pill pill-dpwt">DPWT</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">Hublot</span><div class="agency-brand-props"><span class="prop-pill pill-atp">ATP</span><span class="prop-pill pill-wta">WTA</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">Johnnie Walker (Diageo)</span><div class="agency-brand-props"><span class="prop-pill pill-dpwt">DPWT</span><span class="prop-pill pill-pga">PGA</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">Lexus</span><div class="agency-brand-props"><span class="prop-pill pill-atp">ATP</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">Accenture</span><div class="agency-brand-props"><span class="prop-pill pill-wta">WTA</span><span class="prop-pill pill-pga">PGA</span></div></div>
+      </div>
+    </div>
+
+    <div class="agency-card">
+      <div class="agency-name">Mediacom</div>
+      <div class="agency-holdco">GroupM / WPP</div>
+      <div class="agency-brands">
+        <div class="agency-brand-row"><span class="agency-brand-name">BMW</span><div class="agency-brand-props"><span class="prop-pill pill-dpwt">DPWT</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">Audi / VW Group</span><div class="agency-brand-props"><span class="prop-pill pill-pga">PGA</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">T-Mobile / Deutsche Telekom</span><div class="agency-brand-props"><span class="prop-pill pill-mlb">MLB</span></div></div>
+      </div>
+    </div>
+
+    <div class="agency-card">
+      <div class="agency-name">Initiative</div>
+      <div class="agency-holdco">IPG</div>
+      <div class="agency-brands">
+        <div class="agency-brand-row"><span class="agency-brand-name">Emirates</span><div class="agency-brand-props"><span class="prop-pill pill-atp">ATP</span><span class="prop-pill pill-dpwt">DPWT</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">Mercedes-Benz</span><div class="agency-brand-props"><span class="prop-pill pill-wta">WTA</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">Microsoft Azure</span><div class="agency-brand-props"><span class="prop-pill pill-pga">PGA</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">LG Electronics</span><div class="agency-brand-props"><span class="prop-pill pill-atp">ATP</span><span class="prop-pill pill-pga">PGA</span></div></div>
+      </div>
+    </div>
+
+    <div class="agency-card">
+      <div class="agency-name">PHD</div>
+      <div class="agency-holdco">Omnicom</div>
+      <div class="agency-brands">
+        <div class="agency-brand-row"><span class="agency-brand-name">Heineken</span><div class="agency-brand-props"><span class="prop-pill pill-atp">ATP</span><span class="prop-pill pill-dpwt">DPWT</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">Flutter / Paddy Power</span><div class="agency-brand-props"><span class="prop-pill pill-dpwt">DPWT</span><span class="prop-pill pill-pga">PGA</span></div></div>
+      </div>
+    </div>
+
+    <div class="agency-card">
+      <div class="agency-name">Mindshare</div>
+      <div class="agency-holdco">GroupM / WPP</div>
+      <div class="agency-brands">
+        <div class="agency-brand-row"><span class="agency-brand-name">HSBC</span><div class="agency-brand-props"><span class="prop-pill pill-atp">ATP</span><span class="prop-pill pill-dpwt">DPWT</span><span class="prop-pill pill-pga">PGA</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">Cognizant / TCS</span><div class="agency-brand-props"><span class="prop-pill pill-atp">ATP</span><span class="prop-pill pill-pga">PGA</span></div></div>
+      </div>
+    </div>
+
+    <div class="agency-card">
+      <div class="agency-name">OMD</div>
+      <div class="agency-holdco">Omnicom</div>
+      <div class="agency-brands">
+        <div class="agency-brand-row"><span class="agency-brand-name">Sony</span><div class="agency-brand-props"><span class="prop-pill pill-atp">ATP</span><span class="prop-pill pill-dpwt">DPWT</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">Marriott International</span><div class="agency-brand-props"><span class="prop-pill pill-pga">PGA</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">PepsiCo / Gatorade</span><div class="agency-brand-props"><span class="prop-pill pill-pga">PGA</span><span class="prop-pill pill-mlb">MLB</span></div></div>
+      </div>
+    </div>
+
+    <div class="agency-card">
+      <div class="agency-name">MG OMD / Wavemaker</div>
+      <div class="agency-holdco">GroupM / WPP</div>
+      <div class="agency-brands">
+        <div class="agency-brand-row"><span class="agency-brand-name">JLR / Land Rover</span><div class="agency-brand-props"><span class="prop-pill pill-atp">ATP</span><span class="prop-pill pill-dpwt">DPWT</span><span class="prop-pill pill-pga">PGA</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">OMEGA</span><div class="agency-brand-props"><span class="prop-pill pill-atp">ATP</span><span class="prop-pill pill-wta">WTA</span></div></div>
+        <div class="agency-brand-row"><span class="agency-brand-name">Salesforce</span><div class="agency-brand-props"><span class="prop-pill pill-pga">PGA</span><span class="prop-pill pill-mlb">MLB</span></div></div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <footer>
-  <span>Roar® Confidential · For internal use only · <strong>Contact media / advertising teams — not sponsorship or partnerships</strong></span>
-  <span>Status and notes saved locally in your browser</span>
+  <span>Roar® Confidential · For internal use only · <strong>Contact media / advertising teams only — not sponsorship or partnerships</strong></span>
+  <span>Generated June 2026</span>
 </footer>
 
-<script>
-const DATA = [
-  {
-    brand: "Mastercard",
-    role: "Preferred Payment of the PGA TOUR",
-    category: "Financial Services",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Visa", note:"Largest global card network — runs its own sports sponsorship heavily" },
-      { scope:"global", name:"American Express", note:"Premium card, strong sports & golf activations" },
-      { scope:"emea", name:"Barclaycard", note:"UK card issuer; active sports media buyer" },
-      { scope:"emea", name:"Revolut", note:"European challenger bank; scaling media spend" },
-      { scope:"apac", name:"UnionPay", note:"Dominant in China / APAC" },
-    ],
-    agencies: [
-      { name:"IPG Mediabrands / UM", note:"Mastercard global media AOR" },
-      { name:"McCann", note:"Creative / campaign lead" },
-    ],
-    roarNote: "Mastercard already in the golf ecosystem — use as proof of sector appetite. Target Visa and Amex media teams directly via their respective holdco agencies. Strong EV for programmatic sports media across all territories."
-  },
-  {
-    brand: "Charles Schwab",
-    role: "Official Investment Firm",
-    category: "Financial Services",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"global", name:"Fidelity International", note:"Active in UK / EMEA; sports media buyer" },
-      { scope:"global", name:"BlackRock", note:"Global; brand media via WPP" },
-      { scope:"emea", name:"Hargreaves Lansdown", note:"UK retail investment; significant digital media spend" },
-      { scope:"emea", name:"eToro", note:"European retail trading; active programmatic buyer" },
-      { scope:"global", name:"Interactive Brokers", note:"Global retail trading; digital-first media" },
-      { scope:"us", name:"Fidelity US", note:"US-focused equivalent" },
-      { scope:"us", name:"TD Ameritrade", note:"Now part of Schwab — skip" },
-    ],
-    agencies: [
-      { name:"Publicis / Starcom", note:"Schwab media globally; also handles Fidelity Intl in EMEA" },
-    ],
-    roarNote: "Schwab itself is US-focused — low priority for Roar. EMEA play: target Hargreaves Lansdown, eToro and Fidelity International — all active sports-adjacent buyers.",
-    usOnlyWarning: "Charles Schwab primarily US retail — limited EMEA applicability. Pursue EMEA investment platform alternatives."
-  },
-  {
-    brand: "Morgan Stanley",
-    role: "Proud Partner of THE PLAYERS Championship",
-    category: "Financial Services",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Goldman Sachs", note:"Global; brand media through Dentsu" },
-      { scope:"global", name:"JP Morgan", note:"Active sports sponsorship globally" },
-      { scope:"global", name:"UBS", note:"Strong golf history — Ryder Cup partner" },
-      { scope:"emea", name:"HSBC", note:"Major golf sponsor; strong EMEA media teams" },
-      { scope:"emea", name:"Barclays", note:"Historic golf engagement; EMEA media" },
-    ],
-    agencies: [
-      { name:"Interpublic / Mediahub", note:"Morgan Stanley media globally" },
-    ],
-    roarNote: "Financial services is golf's most natural sector. JP Morgan, HSBC and UBS all have established golf partnerships and active media budgets. These are first-call targets for premium sports inventory."
-  },
-  {
-    brand: "Pacific Life",
-    role: "Official Life Insurance Sponsor",
-    category: "Financial Services",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"global", name:"AXA", note:"Global insurer; major sports sponsor (rugby, F1)" },
-      { scope:"global", name:"Allianz", note:"Active sports media buyer globally" },
-      { scope:"emea", name:"Aviva", note:"UK's largest insurer; significant media spend" },
-      { scope:"emea", name:"Legal & General", note:"UK; invests in sports content adjacency" },
-      { scope:"global", name:"Zurich", note:"Global; rugby and golf heritage" },
-    ],
-    agencies: [
-      { name:"Initiative / IPG", note:"Pacific Life US media" },
-      { name:"Zenith / Publicis", note:"AXA and Allianz global media AOR" },
-    ],
-    roarNote: "Pacific Life is US-centric. Focus instead on AXA, Allianz and Zurich — all global, all with established sports media frameworks and EMEA buying teams.",
-    usOnlyWarning: "Pacific Life limited to US market. Skip direct approach — target global insurers with EMEA presence."
-  },
-  {
-    brand: "Aon",
-    role: "Official Risk Capital Advisor",
-    category: "Professional Services / B2B",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Marsh McLennan", note:"Global risk advisory — active B2B media buyer" },
-      { scope:"global", name:"Willis Towers Watson", note:"Now WTW; significant brand media investment" },
-      { scope:"global", name:"Deloitte", note:"Active in sports sponsorship globally" },
-      { scope:"global", name:"KPMG", note:"Golf heritage partnership — media buyer via GroupM" },
-      { scope:"global", name:"PwC", note:"B2B brand; sports media investment growing" },
-    ],
-    agencies: [
-      { name:"GroupM / Mindshare", note:"Aon global media" },
-      { name:"Wunderman Thompson / WPP", note:"KPMG and Deloitte agency relationships" },
-    ],
-    roarNote: "B2B professional services is an underserved sector for sports digital media — high CPM tolerance, affluent audience alignment. KPMG and Deloitte are warm entry points given their existing golf footprints."
-  },
-  {
-    brand: "Accenture",
-    role: "Official Marketing Partner",
-    category: "Professional Services / B2B",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"IBM", note:"Historic golf tech partner — Watson at Masters" },
-      { scope:"global", name:"Infosys", note:"Active European Tour / golf sponsor" },
-      { scope:"global", name:"Cognizant", note:"PGA Tour partner — already in golf" },
-      { scope:"global", name:"Capgemini", note:"Ryder Cup partner; European golf focus" },
-      { scope:"global", name:"Wipro", note:"Growing brand investment; golf presence" },
-    ],
-    agencies: [
-      { name:"Dentsu / Carat", note:"Accenture global media" },
-      { name:"MG OMD", note:"Infosys EMEA" },
-    ],
-    roarNote: "Tech consultancies are proving sports media ROI — Infosys, Capgemini and Cognizant are actively competing for golf inventory. All three have EMEA buying teams."
-  },
-  {
-    brand: "Delta Air Lines",
-    role: "Official Global Airline",
-    category: "Travel",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"British Airways", note:"IAG; active sports media buyer via M/SIX" },
-      { scope:"global", name:"Emirates", note:"Huge sports sponsorship budget; premium inventory" },
-      { scope:"global", name:"Lufthansa Group", note:"EMEA; digital media investment growing" },
-      { scope:"global", name:"Singapore Airlines", note:"APAC premium; programmatic buyer" },
-      { scope:"emea", name:"easyJet", note:"UK / Europe; performance media buyer" },
-      { scope:"emea", name:"Ryanair", note:"European mass market; digital-heavy" },
-      { scope:"global", name:"Qatar Airways", note:"Sports media investor — already on Roar partners" },
-    ],
-    agencies: [
-      { name:"Wavemaker / GroupM", note:"Delta media AOR" },
-      { name:"M/SIX (WPP)", note:"British Airways media globally" },
-      { name:"Initiative", note:"Emirates global media" },
-    ],
-    roarNote: "Airlines are among the highest-value sports media buyers globally. Emirates and BA are immediate targets — both have existing golf / tennis relationships and EMEA digital teams. Cross-sell ATP and DP World Tour inventory."
-  },
-  {
-    brand: "NetJets",
-    role: "Official Private Jet Sponsor",
-    category: "Travel",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"VistaJet", note:"European-founded; active sports marketing" },
-      { scope:"global", name:"Wheels Up", note:"US-focused; growing European presence" },
-      { scope:"emea", name:"TAG Aviation", note:"EMEA private aviation; premium audience" },
-      { scope:"emea", name:"Air Charter Service", note:"UK HQ; corporate aviation" },
-    ],
-    agencies: [
-      { name:"Direct / in-house", note:"Most private aviation brands buy media direct or via small specialist agencies" },
-    ],
-    roarNote: "Private aviation aligns perfectly with premium sports audiences. VistaJet is the clearest EMEA target — European HQ, active in sports, premium brand positioning."
-  },
-  {
-    brand: "Avis",
-    role: "Official Rental Car",
-    category: "Travel",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Hertz", note:"Global rental; programmatic buyer via Havas" },
-      { scope:"global", name:"Enterprise / National", note:"Global; holds large media budgets" },
-      { scope:"global", name:"Sixt", note:"German-origin; growing EMEA/US; active digital buyer" },
-      { scope:"emea", name:"Europcar", note:"EMEA-focused; performance media" },
-    ],
-    agencies: [
-      { name:"Havas Media", note:"Avis Budget Group global media AOR" },
-    ],
-    roarNote: "Avis already buys golf — use as competitor proof. Target Hertz, Sixt and Enterprise via their respective agencies. All operate across EMEA and have sports audience objectives."
-  },
-  {
-    brand: "Omni Hotels & Resorts",
-    role: "Official Hotel",
-    category: "Travel",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"global", name:"Marriott International", note:"Largest global hotel group; sports media via OMD" },
-      { scope:"global", name:"Hilton", note:"Global; active in sports and golf" },
-      { scope:"global", name:"IHG (InterContinental)", note:"UK-listed; EMEA strong; media via MG OMD" },
-      { scope:"emea", name:"Accor", note:"French; EMEA dominant; strong media team" },
-      { scope:"global", name:"Four Seasons", note:"Ultra-premium; aligns with ATP / DP World Tour audiences" },
-    ],
-    agencies: [
-      { name:"OMD", note:"Marriott global media AOR" },
-      { name:"MG OMD", note:"IHG / InterContinental" },
-      { name:"Starcom", note:"Hilton" },
-    ],
-    roarNote: "Omni is US-focused. Pursue Marriott, IHG and Accor — all global, all with dedicated sports media budgets and EMEA buying capacity. Four Seasons is a fit for ATP premium/virtual inventory.",
-    usOnlyWarning: "Omni Hotels operates primarily in North America. Low priority for EMEA approach — substitute global hotel groups."
-  },
-  {
-    brand: "Viking",
-    role: "Official Cruise / Experiential Travel Partner",
-    category: "Travel",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Cunard / Carnival", note:"Carnival Corp; global; media via Carat" },
-      { scope:"global", name:"MSC Cruises", note:"Swiss-Italian; fast-growing; EMEA media" },
-      { scope:"global", name:"Royal Caribbean", note:"Global; significant sports media investment" },
-      { scope:"emea", name:"P&O Cruises", note:"UK-specific; high affinity with golf demos" },
-      { scope:"global", name:"Celebrity Cruises", note:"Premium; programmatic buyer" },
-    ],
-    agencies: [
-      { name:"Carat / Dentsu", note:"Viking and Carnival Corp global media" },
-    ],
-    roarNote: "Cruise lines index heavily against the 38–65 affluent male demographic that defines Roar's ATP/DP World supply. P&O and MSC are natural EMEA targets."
-  },
-  {
-    brand: "Barbados Tourism Marketing Inc.",
-    role: "Official Tourism Partner",
-    category: "Travel",
-    globalPriority: false,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"VisitDubai", note:"Heavyweight tourism budget; premium sports buyer" },
-      { scope:"global", name:"Tourism Authority of Thailand", note:"Major media spender in sports" },
-      { scope:"emea", name:"Spain Tourism (Turespaña)", note:"EMEA; significant media buyer" },
-      { scope:"global", name:"Abu Dhabi Tourism", note:"Active in golf and tennis sponsorship" },
-      { scope:"global", name:"Saudi Tourism Authority", note:"Massive growing budget; sports-aligned" },
-    ],
-    agencies: [
-      { name:"Direct / specialist travel agencies", note:"Tourism boards often use specialist agencies e.g. M&C Saatchi World Services" },
-    ],
-    roarNote: "Saudi Tourism Authority and VisitDubai are priority targets given Roar's ATP MENA inventory potential. Both are in sport heavily and have premium audience requirements."
-  },
-  {
-    brand: "Discover South Carolina",
-    role: "Official Tourism Sponsor",
-    category: "Travel",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"global", name:"VisitScotland", note:"UK; golf heritage; media buyer for premium sports" },
-      { scope:"emea", name:"Tourism Ireland", note:"Active sports media buyer" },
-      { scope:"emea", name:"Turismo de Portugal", note:"EMEA; growing sports investment" },
-    ],
-    agencies: [
-      { name:"Local specialist", note:"US state tourism typically uses regional agencies" },
-    ],
-    roarNote: "Discover South Carolina is US state-level — skip for Roar. If pursuing tourism vertical, focus on VisitScotland, Tourism Ireland and Visit Portugal who all have European sports media objectives.",
-    usOnlyWarning: "US state tourism authority — no EMEA applicability."
-  },
-  {
-    brand: "Hawaii Tourism Authority",
-    role: "Official Sponsor of the Aloha Season",
-    category: "Travel",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"global", name:"Maldives Tourism", note:"Premium international; golf and tennis adjacent" },
-      { scope:"global", name:"Seychelles Tourism Board", note:"Ultra-premium audience alignment" },
-    ],
-    agencies: [],
-    roarNote: "Hawaii Tourism is US-market focused. Skip. Consider ultra-premium island destinations (Maldives, Seychelles) for ATP/DP World Tour premium inventory.",
-    usOnlyWarning: "US tourism territory — no direct EMEA applicability for Roar."
-  },
-  {
-    brand: "Genesis",
-    role: "Official Vehicle of the PGA TOUR (Global)",
-    category: "Automotive",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Mercedes-Benz", note:"Dominant global luxury auto; sports media via UM" },
-      { scope:"global", name:"BMW", note:"Major golf sponsor (BMW PGA Championship); massive EMEA media" },
-      { scope:"global", name:"Lexus", note:"Toyota premium brand; active sports buyer" },
-      { scope:"global", name:"Audi", note:"EMEA strong; programmatic buyer via Mediacom" },
-      { scope:"emea", name:"Land Rover / JLR", note:"Premium British; sports aligned; GroupM" },
-      { scope:"emea", name:"Porsche", note:"Premium; EMEA dominant; DP World Tour audience fit" },
-      { scope:"global", name:"Volvo", note:"Active golf history; Nordic premium" },
-    ],
-    agencies: [
-      { name:"Innocean / WPP", note:"Genesis global media" },
-      { name:"UM / IPG", note:"Mercedes-Benz global" },
-      { name:"Mediacom / GroupM", note:"BMW and Audi" },
-      { name:"MG OMD / WPP", note:"JLR / Land Rover" },
-    ],
-    roarNote: "Auto is Roar's highest-value sector. BMW PGA Championship is already in the ecosystem — use as proof. Porsche and JLR have exceptional audience alignment with ATP/DP World Tour demographics. First-call targets alongside Mercedes."
-  },
-  {
-    brand: "Michelob ULTRA (AB InBev)",
-    role: "Official Beer",
-    category: "Beer / Alcohol",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Heineken", note:"Major global sports beer brand; UEFA Champions League" },
-      { scope:"global", name:"Budweiser (also AB InBev)", note:"Global; sports media heavy via WPP" },
-      { scope:"emea", name:"Guinness (Diageo)", note:"Rugby and sports; EMEA media buyer" },
-      { scope:"emea", name:"Peroni", note:"Premium lager; European brand; sports adjacent" },
-      { scope:"global", name:"Corona (Constellation Brands)", note:"Premium lager; sports aligned" },
-      { scope:"emea", name:"Estrella Damm", note:"EMEA premium lager; sports activations" },
-      { scope:"global", name:"Stella Artois (AB InBev)", note:"Premium tier — already Roar proof point (Australian Open)" },
-    ],
-    agencies: [
-      { name:"WPP / EssenceMediacom", note:"AB InBev global media AOR (GroupM consortium)" },
-      { name:"PHD / Omnicom", note:"Heineken global media" },
-    ],
-    roarNote: "AB InBev / Stella Artois is already a Roar proof point via Australian Open virtual advertising. Heineken is the immediate competitive target — huge sports media budget, EMEA-strong, and currently buying via PHD Omnicom. Target via PHD sports team."
-  },
-  {
-    brand: "Bushmills",
-    role: "Official Irish Whiskey",
-    category: "Beer / Alcohol",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Johnnie Walker (Diageo)", note:"Massive global whisky brand; active in golf (US Open)" },
-      { scope:"global", name:"Glenfiddich", note:"Premium Scotch; sports adjacency growing" },
-      { scope:"global", name:"Jameson (Pernod Ricard)", note:"Global Irish whiskey; sports media buyer" },
-      { scope:"global", name:"Jack Daniel's (Brown-Forman)", note:"Sports sponsorship heritage" },
-      { scope:"emea", name:"Monkey Shoulder (William Grant)", note:"UK premium blended Scotch; active media" },
-    ],
-    agencies: [
-      { name:"Proximo (owner of Bushmills)", note:"In-house / small agency" },
-      { name:"Carat / Dentsu", note:"Diageo global media AOR" },
-      { name:"UM / IPG", note:"Pernod Ricard global" },
-    ],
-    roarNote: "Diageo (Johnnie Walker, Guinness) is priority — they have the largest premium spirits media budget globally and a proven golf activation history. Approach via Carat/Dentsu sports team."
-  },
-  {
-    brand: "Maestro Dobel",
-    role: "Official Tequila",
-    category: "Beer / Alcohol",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"global", name:"Don Julio (Diageo)", note:"Global premium tequila — EMEA growing fast" },
-      { scope:"global", name:"Patrón (Bacardi)", note:"Global ultra-premium tequila" },
-      { scope:"global", name:"Jose Cuervo (Beckmann)", note:"World's #1 tequila; sports media" },
-    ],
-    agencies: [
-      { name:"Proximo", note:"Maestro Dobel parent — US focused" },
-    ],
-    roarNote: "Maestro Dobel is US-centric. If pursuing premium spirits, Don Julio (Diageo) and Patrón (Bacardi) are global targets with EMEA teams.",
-    usOnlyWarning: "US-focused tequila brand. Limited EMEA media relevance at current scale."
-  },
-  {
-    brand: "O'Doul's",
-    role: "Official Non-Alcohol Brew",
-    category: "Beer / Alcohol",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"global", name:"Heineken 0.0", note:"Global leader in NAB; sports partnerships active" },
-      { scope:"emea", name:"Budweiser Zero", note:"AB InBev NAB; EMEA growing" },
-      { scope:"emea", name:"Peroni Nastro Azzurro 0.0%", note:"Premium EMEA NAB" },
-    ],
-    agencies: [],
-    roarNote: "O'Doul's is a legacy US brand. The global NAB play is via Heineken 0.0 (PHD/Omnicom) — align with Heineken approach.",
-    usOnlyWarning: "O'Doul's is a US-only legacy brand with minimal international media relevance."
-  },
-  {
-    brand: "Coca-Cola",
-    role: "Total Beverage Company Partner",
-    category: "Beverages (Non-Alc)",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"PepsiCo", note:"Global; Gatorade in sports; massive media buyer" },
-      { scope:"global", name:"Lucozade Sport (Suntory)", note:"EMEA sports drink; active sports media" },
-      { scope:"global", name:"Red Bull", note:"Sports media pioneer; creates content not just buys" },
-      { scope:"global", name:"Monster (Coca-Cola)", note:"Already Coke subsidiary — different buyer" },
-      { scope:"emea", name:"Fever-Tree", note:"Premium mixer; growing sports adjacency" },
-    ],
-    agencies: [
-      { name:"WPP / EssenceMediacom", note:"Coca-Cola global media AOR" },
-      { name:"OMD / Omnicom", note:"PepsiCo global media" },
-    ],
-    roarNote: "PepsiCo (Gatorade) is a major sports media buyer globally and has ATP / tennis adjacency. Target via OMD sports team. Red Bull buys direct — approach their media team directly."
-  },
-  {
-    brand: "FAGE",
-    role: "Dairy / Yogurt Partner",
-    category: "Food",
-    globalPriority: false,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Danone", note:"Global dairy; Activia and Nutricia; media via Havas" },
-      { scope:"global", name:"Nestlé", note:"Global food giant; sports nutrition growing" },
-      { scope:"emea", name:"Müller", note:"UK dairy leader; sports audience buyer" },
-      { scope:"emea", name:"Arla", note:"Nordic/EMEA dairy; active in sports adjacency" },
-    ],
-    agencies: [
-      { name:"Havas Media", note:"Danone global AOR" },
-    ],
-    roarNote: "FAGE is niche. The bigger EMEA food plays are Danone and Müller for sports media. Danone / Activia has a track record in sports media campaigns — approach via Havas."
-  },
-  {
-    brand: "WHOOP",
-    role: "Official Fitness Wearable",
-    category: "Sports / Health",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Apple Watch", note:"Apple; massive global media buyer via OMD" },
-      { scope:"global", name:"Garmin", note:"GPS/fitness wearable; active sports media" },
-      { scope:"global", name:"Polar", note:"Fitness tracking; EMEA strong; sports performance" },
-      { scope:"global", name:"Suunto", note:"Premium sport watches; EMEA active" },
-      { scope:"emea", name:"Withings", note:"French healthtech wearable; EMEA growth" },
-    ],
-    agencies: [
-      { name:"Hawke Media", note:"WHOOP performance marketing" },
-      { name:"OMD / Omnicom", note:"Apple global media" },
-    ],
-    roarNote: "Sports wearables is a high-CPM, performance-obsessed category. Garmin already buys golf media — verify and approach via their in-house media team or Dentsu relationship. Apple Watch is a premium play via OMD."
-  },
-  {
-    brand: "Arccos",
-    role: "Official Game Tracker",
-    category: "Sports / Health",
-    globalPriority: false,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Trackman", note:"Golf launch monitor; sells direct to pros and amateurs" },
-      { scope:"global", name:"ShotScope", note:"UK-based golf performance tracker; growing EMEA" },
-      { scope:"global", name:"Bushnell", note:"GPS golf; US/global; media via performance agencies" },
-    ],
-    agencies: [],
-    roarNote: "Golf-specific tech companies are media buyers but at smaller scales. Higher value plays are in broader sports performance tech (Garmin, Polar) with bigger budgets and more relevant scale for Roar."
-  },
-  {
-    brand: "Supergoop!",
-    role: "Official Suncare",
-    category: "Sports / Health",
-    globalPriority: false,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Banana Boat / Coppertone (Edgewell)", note:"Global; active in outdoor sports" },
-      { scope:"global", name:"Soltan (Boots)", note:"UK suncare; outdoor sports adjacent" },
-      { scope:"global", name:"La Roche-Posay (L'Oréal)", note:"Derma/SPF; global; L'Oréal media via UM" },
-      { scope:"emea", name:"Piz Buin (Coty)", note:"EMEA/Alpine specialist suncare" },
-    ],
-    agencies: [
-      { name:"UM / IPG", note:"L'Oréal global media" },
-    ],
-    roarNote: "Suncare aligns with outdoor sport audiences. L'Oréal (via UM) is the biggest media buyer in adjacent beauty/personal care categories — approach via sports planning teams."
-  },
-  {
-    brand: "Cleveland Clinic",
-    role: "Healthcare Partner",
-    category: "Healthcare",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"global", name:"Bupa", note:"UK/global health insurer; sports adjacent; active media buyer" },
-      { scope:"emea", name:"AXA Health", note:"EMEA health insurance; digital media buyer" },
-      { scope:"global", name:"Abbott (medical devices)", note:"Global; FreeStyle Libre in sports media" },
-    ],
-    agencies: [
-      { name:"In-house", note:"Cleveland Clinic manages most media internally" },
-    ],
-    roarNote: "Cleveland Clinic is a US-only hospital group — skip direct approach. EMEA healthcare play: target Bupa and AXA Health who both run sports-adjacent media campaigns.",
-    usOnlyWarning: "US hospital group with no material EMEA media operations."
-  },
-  {
-    brand: "Zyrtec",
-    role: "Official Allergy Relief Sponsor",
-    category: "Healthcare",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"global", name:"Claritin (Bayer)", note:"Global; Bayer Consumer Health via Publicis" },
-      { scope:"global", name:"Piriton / Piriteze (GSK)", note:"UK/EMEA allergy brand" },
-      { scope:"emea", name:"Clarityn (MSD)", note:"EMEA equivalent of Claritin" },
-    ],
-    agencies: [
-      { name:"Publicis Santé / Health practice", note:"Kenvue (Zyrtec owner) health media" },
-    ],
-    roarNote: "Zyrtec is US-dominant. The EMEA OTC health play is Bayer Consumer Health (Clarityn/Claritin) — approach via Publicis Health practice.",
-    usOnlyWarning: "Zyrtec brand is US-dominant — seek Bayer / GSK EMEA equivalents."
-  },
-  {
-    brand: "AWS (Amazon Web Services)",
-    role: "Official Cloud Provider",
-    category: "Technology",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Microsoft Azure", note:"Global cloud; Microsoft media buyer via IPG" },
-      { scope:"global", name:"Google Cloud", note:"Global; Google media is self-managed but GCP brand buys" },
-      { scope:"global", name:"SAP", note:"Enterprise software; active sports sponsorship globally" },
-      { scope:"global", name:"Oracle", note:"Enterprise cloud; golf/tennis media history" },
-      { scope:"emea", name:"OVHcloud", note:"European cloud; EMEA digital buyer" },
-    ],
-    agencies: [
-      { name:"IPG / Initiative", note:"Microsoft Azure global media" },
-      { name:"OMD / Omnicom", note:"Google / Alphabet media (where non-self-managed)" },
-    ],
-    roarNote: "Microsoft Azure via Initiative is a priority EMEA contact — enterprise cloud brands increasingly buy premium sports media for brand positioning alongside performance. Oracle has a historic golf relationship (DP World Tour adjacency)."
-  },
-  {
-    brand: "Adobe",
-    role: "Official Marketing Partner",
-    category: "Technology",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Salesforce", note:"Global CRM/SaaS; active sports sponsor (NFL, global)" },
-      { scope:"global", name:"HubSpot", note:"Marketing SaaS; growing brand media" },
-      { scope:"global", name:"Canva", note:"Design SaaS; active in sports media adjacency" },
-      { scope:"global", name:"Atlassian", note:"Global dev tool; sports-adjacent programmatic buyer" },
-    ],
-    agencies: [
-      { name:"Dentsu / Carat", note:"Adobe global media" },
-      { name:"MG OMD", note:"Salesforce EMEA" },
-    ],
-    roarNote: "B2B SaaS brands increasingly use premium sports for brand positioning. Salesforce is the largest media spender in this category — approach via MG OMD EMEA sports team."
-  },
-  {
-    brand: "CDW",
-    role: "Official Technology Solutions Advisor",
-    category: "Technology",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"global", name:"Insight Direct", note:"IT solutions; EMEA present" },
-      { scope:"emea", name:"Computacenter", note:"UK IT reseller; active B2B media buyer" },
-      { scope:"emea", name:"Softcat", note:"UK VAR; growing media presence" },
-    ],
-    agencies: [],
-    roarNote: "CDW is US-focused IT reseller — low priority. EMEA IT resellers (Computacenter, Softcat) are smaller media buyers. Better to focus on enterprise software brands with larger budgets.",
-    usOnlyWarning: "CDW is a US B2B IT reseller with minimal EMEA media relevance."
-  },
-  {
-    brand: "Rolex",
-    role: "Global Partner / Official Watch",
-    category: "Luxury Goods",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"OMEGA", note:"Already in golf / tennis; Swatch Group; active media" },
-      { scope:"global", name:"TAG Heuer", note:"LVMH; sports heritage; active programmatic buyer" },
-      { scope:"global", name:"IWC Schaffhausen", note:"Richemont; sports adjacency; EMEA focus" },
-      { scope:"global", name:"Breitling", note:"Aviation/sports; growing media investment" },
-      { scope:"emea", name:"Hublot (LVMH)", note:"Sports-first positioning; major buyer" },
-      { scope:"global", name:"Richard Mille", note:"Ultra-premium; sports partnerships" },
-    ],
-    agencies: [
-      { name:"Publicis / Starcom", note:"Rolex global media (limited — mostly PR/event)" },
-      { name:"Wavemaker / GroupM", note:"OMEGA media" },
-      { name:"Carat / Dentsu", note:"TAG Heuer and Hublot (LVMH)" },
-    ],
-    roarNote: "Luxury watches already spend heavily in golf. OMEGA and TAG Heuer are the primary media contacts — both use programmatic and premium direct buys. Hublot is a first-mover in sports digital media and worth a direct approach."
-  },
-  {
-    brand: "TUMI",
-    role: "Official Travel / Luggage Partner",
-    category: "Luxury Goods",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Louis Vuitton (LVMH)", note:"Luxury travel goods; premium sports media" },
-      { scope:"global", name:"Rimowa (LVMH)", note:"Premium luggage; sports adjacency" },
-      { scope:"global", name:"Samsonite", note:"Global luggage; sports-adjacent programmatic" },
-      { scope:"emea", name:"Antler", note:"UK premium luggage; growing media investment" },
-    ],
-    agencies: [
-      { name:"Carat / Dentsu", note:"TUMI (Samsonite parent) global media" },
-      { name:"Carat / Dentsu", note:"LVMH portfolio (LV, Rimowa, TAG Heuer, Hublot)" },
-    ],
-    roarNote: "Premium travel goods align with the ATP/DP World Tour audience (C-suite, high-net-worth, frequent travellers). Rimowa and LV via the LVMH media team (Carat) are priority contacts — single agency relationship unlocks multiple luxury brands."
-  },
-  {
-    brand: "Knockaround",
-    role: "Official Eyewear",
-    category: "Sports / Lifestyle",
-    globalPriority: false,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Oakley (EssilorLuxottica)", note:"Global sports eyewear leader; programmatic buyer" },
-      { scope:"global", name:"Maui Jim", note:"Premium sport sunglasses; golf heritage" },
-      { scope:"emea", name:"Persol (EssilorLuxottica)", note:"European premium; sports adjacent" },
-      { scope:"global", name:"Bollé", note:"Sport eyewear; EMEA strong; golf and tennis" },
-    ],
-    agencies: [
-      { name:"Publicis / Zenith", note:"EssilorLuxottica global media (Oakley, Persol, Ray-Ban)" },
-    ],
-    roarNote: "Oakley (EssilorLuxottica) is the clear priority — the group buys across sport categories globally and the Zenith EMEA sports team is the single contact for multiple brands."
-  },
-  {
-    brand: "Stanley 1913",
-    role: "Official Insulated Drinkware",
-    category: "Sports / Lifestyle",
-    globalPriority: false,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Hydro Flask (Helen of Troy)", note:"Global; active outdoor / sports media" },
-      { scope:"global", name:"Yeti", note:"Premium drinkware; sports lifestyle media buyer" },
-      { scope:"emea", name:"Klean Kanteen", note:"EMEA eco-sports drinkware" },
-    ],
-    agencies: [],
-    roarNote: "Premium drinkware is growing in sports. Yeti has a strong sports media investment pattern — approach their UK/EMEA marketing team directly."
-  },
-  {
-    brand: "FedEx",
-    role: "Title Sponsor / FedExCup",
-    category: "Logistics",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"DHL", note:"Global logistics; active in motor sport and golf" },
-      { scope:"global", name:"UPS", note:"Global; sports sponsorship media buyer" },
-      { scope:"emea", name:"DPD / GeoPost", note:"EMEA parcel delivery; growing brand media" },
-      { scope:"global", name:"TNT (FedEx subsidiary)", note:"EMEA brand" },
-    ],
-    agencies: [
-      { name:"BBDO / OMD", note:"FedEx global media" },
-      { name:"Ogilvy / WPP", note:"DHL global media" },
-    ],
-    roarNote: "DHL is the most active sports media buyer in logistics — F1 Official Logistics Partner. Approach DHL via Ogilvy/WPP for premium sports digital. Good fit for ATP logistics/travel content."
-  },
-  {
-    brand: "DraftKings",
-    role: "Official Daily Fantasy / Betting",
-    category: "Sports Betting",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"global", name:"Bet365", note:"UK-origin global operator; massive digital media buyer" },
-      { scope:"global", name:"Flutter / Paddy Power Betfair", note:"EMEA dominant; sports media via PHD" },
-      { scope:"emea", name:"William Hill (Caesars)", note:"UK; active in golf and sports" },
-      { scope:"global", name:"Betway", note:"Global; sports sponsorship specialist" },
-    ],
-    agencies: [
-      { name:"PHD / Omnicom", note:"Flutter / Paddy Power global media" },
-      { name:"In-house", note:"Bet365 — buys almost exclusively direct" },
-    ],
-    roarNote: "DraftKings is US-only. The EMEA betting market is a massive programmatic buyer. Bet365, Paddy Power and William Hill all buy premium sports media at scale. Bet365 in particular buys direct — approach their digital media team in Stoke.",
-    usOnlyWarning: "DraftKings is a US-regulated product — no EMEA media relevance for Roar's current supply."
-  },
-  {
-    brand: "FanDuel",
-    role: "Official Betting / Casino",
-    category: "Sports Betting",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"global", name:"Flutter (parent company)", note:"FanDuel parent — Paddy Power / Betfair are EMEA arms" },
-      { scope:"emea", name:"Sky Bet", note:"Flutter subsidiary; UK dominant" },
-      { scope:"emea", name:"Betfair / Paddy Power", note:"Flutter EMEA brands" },
-    ],
-    agencies: [],
-    roarNote: "FanDuel is US-only but parent Flutter (PHD/Omnicom) has EMEA presence via Paddy Power and Betfair — single agency entry point for both markets.",
-    usOnlyWarning: "FanDuel operates in regulated US states only. No current EMEA media relevance."
-  },
-  {
-    brand: "Cognizant",
-    role: "Global Partner / Presidents Cup",
-    category: "Professional Services / B2B",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"TCS (Tata Consultancy)", note:"Global IT; active in London Marathon, golf" },
-      { scope:"global", name:"Infosys", note:"European Tour / DP World Tour — already Roar adjacency" },
-      { scope:"global", name:"HCLTech", note:"Global IT; growing brand media" },
-    ],
-    agencies: [
-      { name:"Mindshare / GroupM", note:"Cognizant and TCS global media" },
-    ],
-    roarNote: "IT services brands use premium sports to signal enterprise credibility. TCS already buys in golf and athletics. Infosys has European Tour history — approach via GroupM sports team."
-  },
-  {
-    brand: "Comcast Business",
-    role: "Proud Partner / THE PLAYERS",
-    category: "Technology",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"emea", name:"BT Business / EE", note:"UK business connectivity; sports adjacent" },
-      { scope:"emea", name:"Vodafone Business", note:"EMEA B2B connectivity; active media buyer" },
-      { scope:"global", name:"AT&T Business", note:"US; global enterprise connectivity" },
-    ],
-    agencies: [],
-    roarNote: "Comcast Business is US cable infrastructure — no EMEA relevance. Vodafone Business and BT/EE are the EMEA equivalents with active sports media investment.",
-    usOnlyWarning: "US cable company — no EMEA applicability."
-  },
-  {
-    brand: "Optum (UnitedHealth)",
-    role: "Proud Partner / THE PLAYERS",
-    category: "Healthcare",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"emea", name:"Bupa", note:"UK/global health services; active sports media" },
-      { scope:"global", name:"Cigna", note:"Global health; golf adjacency" },
-    ],
-    agencies: [],
-    roarNote: "Optum/UnitedHealth is US-only. Skip direct. Bupa EMEA and Cigna are equivalent with media presence.",
-    usOnlyWarning: "US health insurer — no EMEA media relevance."
-  },
-  {
-    brand: "Valspar",
-    role: "Official Paint",
-    category: "Home & Garden",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"global", name:"Dulux (AkzoNobel)", note:"Global paint leader; active in sports media EMEA" },
-      { scope:"global", name:"Crown Paints (Hempel)", note:"UK/EMEA; active media buyer" },
-      { scope:"global", name:"Farrow & Ball (Sherwin-Williams)", note:"Premium UK paint" },
-      { scope:"emea", name:"Leyland / Johnstone's", note:"UK trade paint; sports adjacent" },
-    ],
-    agencies: [
-      { name:"Havas Media", note:"Valspar (Sherwin-Williams) global media" },
-      { name:"Wavemaker / GroupM", note:"AkzoNobel / Dulux global" },
-    ],
-    roarNote: "Valspar is US-dominant. Dulux (AkzoNobel) is the EMEA equivalent and a major media buyer via GroupM — approach their sports planning team.",
-    usOnlyWarning: "Valspar brand is US-focused; UK/EMEA equivalent is Dulux."
-  },
-  {
-    brand: "TruGreen",
-    role: "Official Lawn Care",
-    category: "Home & Garden",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"emea", name:"Scotts (UK)", note:"UK/EMEA garden care; Miracle-Gro" },
-      { scope:"emea", name:"Wickes / B&Q (Kingfisher)", note:"UK home improvement; media buyer" },
-    ],
-    agencies: [],
-    roarNote: "TruGreen is a US-only lawn service. No direct EMEA equivalent at comparable media scale — low priority.",
-    usOnlyWarning: "US lawn care service — no EMEA presence or media relevance."
-  },
-  {
-    brand: "Deckorators",
-    role: "Official Decking & Railing",
-    category: "Home & Garden",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"emea", name:"Trex (UK/EMEA)", note:"Composite decking; growing EMEA distribution" },
-    ],
-    agencies: [],
-    roarNote: "US home improvement niche brand. Skip.",
-    usOnlyWarning: "US-specific building products brand — no EMEA media relevance."
-  },
-  {
-    brand: "Dream Finders Homes",
-    role: "National Home Builder",
-    category: "Real Estate",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"global", name:"Barratt Developments", note:"UK's largest housebuilder; media buyer" },
-      { scope:"emea", name:"Persimmon / Taylor Wimpey", note:"UK residential; marketing via agencies" },
-      { scope:"global", name:"Savills / Knight Frank", note:"Global property advisory; media buyer" },
-    ],
-    agencies: [],
-    roarNote: "Dream Finders is a US regional housebuilder. Skip for EMEA. Savills/Knight Frank are globally relevant real estate brands with sports media investment.",
-    usOnlyWarning: "US regional home builder — no international media operations."
-  },
-  {
-    brand: "Rocket",
-    role: "Official Mortgage Sponsor",
-    category: "Real Estate",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"emea", name:"Nationwide Building Society", note:"UK mortgage lender; sports media" },
-      { scope:"emea", name:"Santander UK", note:"EMEA bank; sports sponsorship history" },
-      { scope:"global", name:"HSBC", note:"Global mortgage and banking; golf adjacency" },
-    ],
-    agencies: [],
-    roarNote: "Rocket is a US mortgage platform — does not transact in Europe. HSBC and Santander UK are the EMEA equivalents with golf-adjacent sports media investment.",
-    usOnlyWarning: "US-only mortgage platform — no European operations or media relevance."
-  },
-  {
-    brand: "Blackstone (Outdoor Cooking)",
-    role: "Outdoor Cooking Partner",
-    category: "Consumer Goods",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"global", name:"Weber Grills", note:"Global BBQ brand; active outdoor sports media" },
-      { scope:"emea", name:"Big Green Egg", note:"Premium EMEA/global BBQ; outdoor lifestyle" },
-      { scope:"emea", name:"Char-Broil", note:"US-origin but EMEA distributor" },
-    ],
-    agencies: [],
-    roarNote: "Blackstone is a US-focused outdoor cooking brand. Weber is the global equivalent with real EMEA media investment.",
-    usOnlyWarning: "US outdoor cooking brand with limited international media footprint."
-  },
-  {
-    brand: "John Deere",
-    role: "Official Tractor / Mower",
-    category: "Agriculture / Machinery",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Kubota", note:"Japanese; global; growing EMEA media spend" },
-      { scope:"global", name:"CNH Industrial (Case IH)", note:"Global ag machinery; sports adjacent" },
-      { scope:"emea", name:"AGCO / Fendt", note:"EMEA agricultural machinery; B2B" },
-    ],
-    agencies: [
-      { name:"FCB/Global", note:"John Deere global creative/media" },
-    ],
-    roarNote: "John Deere has global presence and is not US-only — their media team activates in EMEA. Agriculture machinery brands are unusual media buyers but John Deere is active; verify EMEA media contacts via FCB."
-  },
-  {
-    brand: "Mitsubishi Electric",
-    role: "Official HVAC / Video Display",
-    category: "Technology",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Daikin", note:"Japanese HVAC; global; active B2B media" },
-      { scope:"global", name:"Samsung Electronics", note:"Global electronics; sports media buyer" },
-      { scope:"global", name:"LG Electronics", note:"Global; sports media investment growing" },
-      { scope:"emea", name:"Bosch", note:"EMEA; consumer electronics and home" },
-    ],
-    agencies: [
-      { name:"Cheil / Samsung", note:"Samsung Electronics global — self manages" },
-      { name:"Initiative / IPG", note:"LG Electronics global" },
-    ],
-    roarNote: "Samsung and LG are priority electronics brands with major global sports media budgets. Both index against premium male audiences. LG via Initiative EMEA is a first-call contact."
-  },
-  {
-    brand: "SERVPRO",
-    role: "Official Cleanup & Restoration",
-    category: "Professional Services",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [],
-    agencies: [],
-    roarNote: "US-only franchise restoration service. No international media relevance.",
-    usOnlyWarning: "US franchise service business — no EMEA presence."
-  },
-  {
-    brand: "Southern Company",
-    role: "Official Energy Company",
-    category: "Energy / Utilities",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [
-      { scope:"global", name:"Shell", note:"Global energy; active sports media buyer" },
-      { scope:"global", name:"bp", note:"Global; sports sponsorship heritage (F1)" },
-      { scope:"emea", name:"EDF Energy", note:"UK/EMEA; growing media investment" },
-      { scope:"emea", name:"Octopus Energy", note:"UK challenger; growing brand media" },
-      { scope:"global", name:"TotalEnergies", note:"French global energy; active sports sponsor" },
-    ],
-    agencies: [
-      { name:"Havas Media", note:"TotalEnergies global" },
-      { name:"Mediacom / GroupM", note:"bp and Shell global" },
-    ],
-    roarNote: "Southern Company is a regional US utility — skip. Shell, bp and TotalEnergies are global energy brands with significant sports media budgets and EMEA buying teams.",
-    usOnlyWarning: "US regional utility company — no international media relevance."
-  },
-  {
-    brand: "United Rentals",
-    role: "Event Equipment Provider",
-    category: "Professional Services",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [],
-    agencies: [],
-    roarNote: "US-only equipment rental. No media interest.",
-    usOnlyWarning: "US-only B2B service — no media relevance."
-  },
-  {
-    brand: "Korn Ferry",
-    role: "Title Sponsor / Korn Ferry Tour",
-    category: "Professional Services / B2B",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Heidrick & Struggles", note:"Global executive search; media buyer" },
-      { scope:"global", name:"Spencer Stuart", note:"Global; executive search; brand media" },
-      { scope:"emea", name:"Egon Zehnder", note:"EMEA premium executive search" },
-      { scope:"global", name:"Mercer (MMC)", note:"People advisory; Marsh parent company" },
-    ],
-    agencies: [],
-    roarNote: "Executive search firms are growing brand media buyers. Heidrick & Struggles and Spencer Stuart both use premium business media. Small scale but high CPM tolerance."
-  },
-  {
-    brand: "Qualtrics",
-    role: "Experience Management Partner",
-    category: "Technology",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Medallia", note:"Experience management; global; SAP-adjacent" },
-      { scope:"global", name:"Sprinklr", note:"CX platform; global media buyer" },
-      { scope:"global", name:"Verint", note:"Enterprise; growing brand presence" },
-    ],
-    agencies: [
-      { name:"Dentsu", note:"Qualtrics global media" },
-    ],
-    roarNote: "Enterprise SaaS brands use premium sports for B2B brand building. Medallia and Sprinklr are smaller scale buyers but relevant for premium digital."
-  },
-  {
-    brand: "ReliaQuest",
-    role: "Cybersecurity Partner",
-    category: "Technology",
-    globalPriority: false,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"CrowdStrike", note:"Global; major cybersecurity brand; active media buyer" },
-      { scope:"global", name:"Palo Alto Networks", note:"Global; sports media investment growing" },
-      { scope:"global", name:"Darktrace", note:"UK-origin; EMEA AI cybersecurity; IPO media spend" },
-    ],
-    agencies: [],
-    roarNote: "Cybersecurity brands are increasingly brand media buyers — CrowdStrike runs major sports campaigns. Darktrace (UK-origin) is an EMEA-accessible target."
-  },
-  {
-    brand: "LOCALiQ",
-    role: "Official Digital Marketing Services",
-    category: "Media",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [],
-    agencies: [],
-    roarNote: "Gannett/LOCALiQ is a US media brand — no EMEA relevance.",
-    usOnlyWarning: "US local digital media brand — no EMEA applicability."
-  },
-  {
-    brand: "Golf Digest",
-    role: "Official Golf Publication",
-    category: "Media",
-    globalPriority: false,
-    usOnly: false,
-    competitors: [
-      { scope:"emea", name:"Today's Golfer / Golf Monthly", note:"UK golf media — but these are potential Roar supply partners not demand" },
-    ],
-    agencies: [],
-    roarNote: "Golf Digest (Condé Nast) is a potential supply partner and media ecosystem ally — not a demand target for Roar."
-  },
-  {
-    brand: "Fortune",
-    role: "Media / Events Partner",
-    category: "Media",
-    globalPriority: false,
-    usOnly: false,
-    competitors: [],
-    agencies: [],
-    roarNote: "Fortune is a B2B media partner not an advertising buyer — they may be useful for awareness/PR but not a direct demand prospect."
-  },
-  {
-    brand: "USA TODAY / LOCALiQ",
-    role: "Official Marketing Partner",
-    category: "Media",
-    globalPriority: false,
-    usOnly: true,
-    competitors: [],
-    agencies: [],
-    roarNote: "Gannett is a US media group — not a demand prospect.",
-    usOnlyWarning: "US media company — no EMEA media buying relevance."
-  },
-  {
-    brand: "Getty Images",
-    role: "Official Photographic Services",
-    category: "Professional Services",
-    globalPriority: false,
-    usOnly: false,
-    competitors: [],
-    agencies: [],
-    roarNote: "Getty is a service provider (photo licensing) — not a media buyer. Potential content/image partnership for Roar credentials but not a demand prospect."
-  },
-  {
-    brand: "Technics (Panasonic)",
-    role: "Official Audio Partner",
-    category: "Consumer Electronics",
-    globalPriority: true,
-    usOnly: false,
-    competitors: [
-      { scope:"global", name:"Sony", note:"Global electronics; massive sports media buyer" },
-      { scope:"global", name:"Bose", note:"Premium audio; sports activations (NFL, golf)" },
-      { scope:"global", name:"Bang & Olufsen", note:"Premium audio; EMEA luxury audience alignment" },
-      { scope:"global", name:"JBL (Samsung Harman)", note:"Global audio; sports events" },
-    ],
-    agencies: [
-      { name:"Dentsu / Carat", note:"Panasonic/Technics global media" },
-      { name:"OMD", note:"Sony global media" },
-    ],
-    roarNote: "Sony (OMD) is a priority — the largest global electronics media buyer with strong sports investment history. Bose also runs active sports media programs. Both align with ATP audience demographics."
-  }
-];
-// ── STATUS CONFIG ─────────────────────────────────────────────
-const STATUSES = [
-  { value: 'Not contacted', color: 'var(--muted)' },
-  { value: 'Contacted',     color: 'var(--blue)' },
-  { value: 'Meeting booked',color: 'var(--amber)' },
-  { value: 'In conversation',color:'var(--purple)' },
-  { value: 'Proposal sent', color: 'var(--orange)' },
-  { value: 'Closed',        color: 'var(--green)' },
-  { value: 'Not a fit',     color: 'var(--red)' },
-];
-
-// ── STATE ─────────────────────────────────────────────────────
-let activeFilter = 'all';
-let activeStatusFilter = 'all';
-let searchTerm = '';
-const STORE_KEY = 'roar_prospect_v2';
-
-function loadStore() {
-  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e) { return {}; }
-}
-function saveStore(store) {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch(e) {}
-}
-function getRecord(brand) {
-  const store = loadStore();
-  return store[brand] || { status: 'Not contacted', notes: '', owner: '' };
-}
-function setRecord(brand, key, value) {
-  const store = loadStore();
-  if (!store[brand]) store[brand] = { status: 'Not contacted', notes: '', owner: '' };
-  store[brand][key] = value;
-  saveStore(store);
-}
-
-// ── DASHBOARD ─────────────────────────────────────────────────
-function updateDashboard() {
-  const store = loadStore();
-  const counts = { 'all': DATA.length };
-  STATUSES.forEach(s => counts[s.value] = 0);
-  DATA.forEach(d => {
-    const rec = store[d.brand] || {};
-    const st = rec.status || 'Not contacted';
-    if (counts[st] !== undefined) counts[st]++;
-  });
-  Object.keys(counts).forEach(k => {
-    const el = document.getElementById('count-' + k);
-    if (el) el.textContent = counts[k];
-  });
-}
-
-// ── FILTER / SEARCH ───────────────────────────────────────────
-function filterCards() {
-  searchTerm = document.getElementById('searchInput').value.toLowerCase();
-  renderCards();
-}
-function setFilter(val, btn) {
-  activeFilter = val;
-  activeStatusFilter = 'all';
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.pipeline-stage').forEach(s => s.classList.remove('active-stage'));
-  renderCards();
-}
-function filterByStatus(st) {
-  activeStatusFilter = st;
-  activeFilter = 'all';
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.filter-btn')[0].classList.add('active');
-  document.querySelectorAll('.pipeline-stage').forEach(s => s.classList.remove('active-stage'));
-  const el = document.getElementById('stage-' + st);
-  if (el) el.classList.add('active-stage');
-  renderCards();
-}
-
-// ── STATUS BADGE ──────────────────────────────────────────────
-function statusClass(st) {
-  return 'status-' + st.replace(/ /g,'-');
-}
-function buildStatusBadge(brand, currentStatus) {
-  const sc = statusClass(currentStatus);
-  const menuId = 'menu_' + brand.replace(/\W/g,'');
-  const menuItems = STATUSES.map(s => `
-    <div class="status-menu-item" onclick="changeStatus('${brand}','${s.value}'); event.stopPropagation();">
-      <span class="status-dot" style="background:${s.color}"></span>${s.value}
-    </div>`).join('');
-  return `
-    <div style="position:relative; display:inline-block">
-      <div class="status-badge ${sc}" onclick="toggleStatusMenu('${menuId}'); event.stopPropagation();">
-        <span>●</span> ${currentStatus}
-      </div>
-      <div class="status-menu" id="${menuId}">${menuItems}</div>
-    </div>`;
-}
-function toggleStatusMenu(menuId) {
-  // close all others first
-  document.querySelectorAll('.status-menu.open').forEach(m => {
-    if (m.id !== menuId) m.classList.remove('open');
-  });
-  const menu = document.getElementById(menuId);
-  if (menu) menu.classList.toggle('open');
-}
-function changeStatus(brand, newStatus) {
-  setRecord(brand, 'status', newStatus);
-  // close menus
-  document.querySelectorAll('.status-menu.open').forEach(m => m.classList.remove('open'));
-  updateDashboard();
-  // update badge and card stripe in place without full re-render
-  const cardEl = document.getElementById('card_' + brand.replace(/\W/g,''));
-  if (cardEl) {
-    cardEl.setAttribute('data-status', newStatus);
-    const badgeWrap = cardEl.querySelector('.status-badge-wrap');
-    if (badgeWrap) badgeWrap.innerHTML = buildStatusBadge(brand, newStatus);
-  }
-}
-
-// ── NOTES & OWNER ─────────────────────────────────────────────
-function saveNotes(brand) {
-  const el = document.getElementById('notes_' + brand.replace(/\W/g,''));
-  if (!el) return;
-  setRecord(brand, 'notes', el.value);
-  const saved = document.getElementById('saved_' + brand.replace(/\W/g,''));
-  if (saved) { saved.classList.add('show'); setTimeout(() => saved.classList.remove('show'), 1800); }
-}
-function saveOwner(brand) {
-  const el = document.getElementById('owner_' + brand.replace(/\W/g,''));
-  if (!el) return;
-  setRecord(brand, 'owner', el.value);
-}
-
-// ── CARD TOGGLE ───────────────────────────────────────────────
-function toggleCard(cardEl) {
-  const toggle = cardEl.querySelector('.card-toggle');
-  cardEl.classList.toggle('open');
-  if (toggle) toggle.textContent = cardEl.classList.contains('open') ? '▲ Close' : '▼ Expand';
-}
-
-// ── RENDER ────────────────────────────────────────────────────
-function renderCards() {
-  const grid = document.getElementById('cardGrid');
-  const store = loadStore();
-
-  const filtered = DATA.filter(d => {
-    const rec = store[d.brand] || {};
-    const st = rec.status || 'Not contacted';
-
-    const matchSearch = !searchTerm ||
-      d.brand.toLowerCase().includes(searchTerm) ||
-      d.category.toLowerCase().includes(searchTerm) ||
-      (d.competitors||[]).some(c => c.name.toLowerCase().includes(searchTerm)) ||
-      (d.agencies||[]).some(a => a.name.toLowerCase().includes(searchTerm));
-
-    const matchFilter =
-      activeFilter === 'all'    ? true :
-      activeFilter === 'global' ? (d.globalPriority && !d.usOnly) :
-      activeFilter === 'us-skip'? d.usOnly :
-      d.category === activeFilter;
-
-    const matchStatus = activeStatusFilter === 'all' ? true : st === activeStatusFilter;
-
-    return matchSearch && matchFilter && matchStatus;
-  });
-
-  if (!filtered.length) {
-    grid.innerHTML = `<div class="empty"><h3>No prospects found</h3><p>Adjust your search or filter.</p></div>`;
-    return;
-  }
-
-  grid.innerHTML = filtered.map(d => {
-    const cid = 'card_' + d.brand.replace(/\W/g,'');
-    const rec = store[d.brand] || { status:'Not contacted', notes:'', owner:'' };
-    const scopeColor = d.usOnly ? 'var(--red)' : d.globalPriority ? 'var(--green)' : 'var(--amber)';
-    const scopeLabel = d.usOnly ? 'US-only brand' : d.globalPriority ? 'Global priority' : 'EMEA target';
-
-    const compHTML = (d.competitors||[]).map(c => `
-      <div class="competitor-row">
-        <span class="comp-scope ${c.scope}">${c.scope.toUpperCase()}</span>
-        <div><div class="comp-name">${c.name}</div><div class="comp-note">${c.note}</div></div>
-      </div>`).join('');
-
-    const agencyHTML = (d.agencies||[]).map(a => `
-      <div class="agency-row">
-        <span class="agency-name">${a.name}</span>
-        <span class="agency-note">— ${a.note}</span>
-      </div>`).join('');
-
-    const safeId = d.brand.replace(/\W/g,'');
-
-    return `
-<div class="card" id="${cid}" data-status="${rec.status}">
-  <div class="card-top" onclick="toggleCard(document.getElementById('${cid}'))">
-    <div class="card-left">
-      <div class="card-brand">${d.brand}</div>
-      <div class="card-role">${d.role}</div>
-    </div>
-    <div class="card-cat">${d.category}</div>
-  </div>
-
-  <div class="card-meta-row">
-    <div class="flag-tag"><div class="dot" style="background:${scopeColor}"></div>${scopeLabel}</div>
-    <div class="status-badge-wrap">${buildStatusBadge(d.brand, rec.status)}</div>
-  </div>
-
-  <div class="card-toggle-row">
-    <div class="card-toggle" onclick="toggleCard(document.getElementById('${cid}'))">▼ Expand</div>
-    ${rec.owner ? `<div style="font-size:11px;color:var(--muted)">Owner: <span style="color:var(--white)">${rec.owner}</span></div>` : ''}
-  </div>
-
-  <div class="card-detail">
-    ${d.usOnlyWarning ? `<div class="skip-banner">⚠ ${d.usOnlyWarning}</div>` : ''}
-
-    ${compHTML ? `
-    <div class="detail-section">
-      <div class="detail-label">Category competitors to target</div>
-      <div class="competitor-list">${compHTML}</div>
-    </div>` : ''}
-
-    ${agencyHTML ? `
-    <div class="detail-section">
-      <div class="detail-label">Media agency contacts</div>
-      <div class="agency-list">${agencyHTML}</div>
-    </div>` : ''}
-
-    <div class="detail-section">
-      <div class="roar-note"><strong>Roar angle:</strong> ${d.roarNote}</div>
-    </div>
-
-    <div class="notes-wrap">
-      <div class="detail-label">Notes</div>
-      <textarea
-        class="notes-textarea"
-        id="notes_${safeId}"
-        placeholder="Contact name, date of outreach, outcome, next step…"
-        onclick="event.stopPropagation()"
-        onblur="saveNotes('${d.brand}')"
-      >${rec.notes}</textarea>
-      <div class="notes-saved" id="saved_${safeId}">✓ Saved</div>
-    </div>
-
-    <div class="owner-row">
-      <span class="owner-label">Owner:</span>
-      <input
-        class="owner-input"
-        id="owner_${safeId}"
-        type="text"
-        placeholder="e.g. Jeremy"
-        value="${rec.owner}"
-        onclick="event.stopPropagation()"
-        onblur="saveOwner('${d.brand}')"
-      >
-    </div>
-  </div>
-</div>`;
-  }).join('');
-}
-
-// ── EXPORT CSV ────────────────────────────────────────────────
-function exportCSV() {
-  const store = loadStore();
-  const headers = ['Brand','Category','Priority','Status','Owner','Agencies','Notes'];
-  const rows = DATA.map(d => {
-    const rec = store[d.brand] || {};
-    const agencies = (d.agencies||[]).map(a=>a.name).join(' | ');
-    const priority = d.usOnly ? 'US-only skip' : d.globalPriority ? 'Global priority' : 'EMEA target';
-    return [
-      d.brand,
-      d.category,
-      priority,
-      rec.status || 'Not contacted',
-      rec.owner || '',
-      agencies,
-      (rec.notes||'').replace(/\n/g,' ')
-    ].map(v => `"${String(v).replace(/"/g,'""')}"`).join(',');
-  });
-  const csv = [headers.join(','), ...rows].join('\n');
-  const blob = new Blob([csv], {type:'text/csv'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'roar_prospect_map_' + new Date().toISOString().slice(0,10) + '.csv';
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-// ── CLOSE MENUS ON OUTSIDE CLICK ──────────────────────────────
-document.addEventListener('click', () => {
-  document.querySelectorAll('.status-menu.open').forEach(m => m.classList.remove('open'));
-});
-
-// ── INIT ──────────────────────────────────────────────────────
-updateDashboard();
-renderCards();
-</script>
 </body>
 </html>
